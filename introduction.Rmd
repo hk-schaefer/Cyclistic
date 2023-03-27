@@ -7,7 +7,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Case Study: How Does a Bike-Share Navigate Speedy Succes
+## Case Study: How Does a Bike-Share Navigate Speedy Success
 \
 \
 
