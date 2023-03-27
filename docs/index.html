@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Hartmut Schaefer" />
 
+<meta name="date" content="2023-03-27" />
 
-<title>introduction.knit</title>
+<title>index.knit</title>
 
 <script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,9 +31,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
@@ -212,75 +211,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-.tocify-subheader {
-  display: inline;
-}
-.tocify-subheader .tocify-item {
-  font-size: 0.95em;
-}
-
-</style>
-
-
 
 </head>
 
@@ -288,16 +218,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -349,156 +269,58 @@ div.tocify {
 </div>
 
 
-<div id="case-study-how-does-a-bike-share-navigate-speedy-success"
+<div id="google-data-analytics-specialization---capstone-project"
 class="section level2">
-<h2>Case Study: How Does a Bike-Share Navigate Speedy Success</h2>
+<h2>Google Data Analytics Specialization - CapStone Project</h2>
 <p><br />
+</p>
+<div id="contents" class="section level3">
+<h3>Contents</h3>
+<p>This website contains two approaches to the data analysis case study
+project from start to end:<br />
 <br />
-</p>
-</div>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<div id="scenario" class="section level3">
-<h3>1. Scenario</h3>
-<p><img src="images/02.png" width="100%" style="display: block; margin: auto;" /><br />
-<br />
-</p>
-</div>
-<div id="stakeholders" class="section level3">
-<h3>2. Stakeholders</h3>
-<ul>
-<li>Director of marketing, Lily Moreno, my manager: She is responsible
-for marketing campaigns to promote the bike-share program.<br />
-</li>
-<li>Marketing analytics team: A team of data analysts, responsible for
-collecting, analyzing, and reporting data for the market strategy. I am
-a junior data analyst of this team.<br />
-</li>
-<li>Executive team: Will decide whether to approve the recommended
-marketing program.<br />
-<br />
-<br />
-</li>
-</ul>
-</div>
-<div id="data-analysis-process" class="section level3">
-<h3>3. Data Analysis Process</h3>
-<p>To answer the business question, we will follow the data analysis
-process: <strong>ask, prepare, process, analyze, share</strong>, and
-<strong>act.</strong><br />
-<br />
-</p>
-<div id="ask" class="section level4">
-<h4>3.1 Ask</h4>
-<p>Three questions will guide the marketing program:<br />
-</p>
-<ol style="list-style-type: decimal">
-<li>How do annual members and casual riders use Cyclistic bikes
-differently?<br />
-</li>
-<li>Why would casual riders buy Cyclistic annual memberships?<br />
-</li>
-<li>How can Cyclistic use digital media to influence casual riders to
-become members?<br />
-</li>
-</ol>
-<p>The marketing director has assigned me to answer the first
-question?<br />
-<br />
-<strong><code>How do annual members and casual riders use Cyclistic bikes differently?</code></strong><br />
-<br />
-</p>
-</div>
-<div id="prepare" class="section level4">
-<h4>3.2 Prepare</h4>
-<p>For the data analysis we will use trip data from previous 12 months
-from this <a
-href="https://divvy-tripdata.s3.amazonaws.com/index.html">source</a>.
-(Note: The data has been made available by Motivate Inernational
-Inc. under this <a
-href="https://ride.divvybikes.com/data-license-agreement">license</a>.)<br />
-<br />
-</p>
-</div>
-<div id="process" class="section level4">
-<h4>3.3 Process</h4>
-<p><strong>a) Choose the right tools:</strong><br />
-</p>
-<p>The use of spreadsheets can be ruled out due to the large data size,
-leaving us with SQL or R as best choices.</p>
-<p>Approach 1:<br />
-- <em>Excel</em> (Pivot and Graphs): For an ad-hoc analysis with a
-single sample file.<br />
-- <em>SQL Server</em> Management Studio: For data import and
-cleaning<br />
-- <em>Tableau desktop</em>: for data exploration, visualization, and
-reporting<br />
-</p>
-<p>Approach 2:<br />
-- <em>R: RStudio/ RMarkdown</em>: for a more in-depth analysis and for
-reporting<br />
-- <em>GitHub</em>: reporting and code sharing<br />
-<br />
-</p>
-<p><strong>b) Data integrity</strong><br />
-</p>
-<p>Data integrity is to ensure that the data sample is sufficient, has
-no bias, represents the population, is accurate and trustworthy.<br />
-In this project the data sample represents the total population of one
-year, is therefore not biased, and the data are from first party.<br />
-<br />
-</p>
-<p><strong>c) Cleaning the data</strong><br />
-</p>
-<p>The provided raw data are already in relative clean condition.
-Nevertheless, the following cleaning steps are still required:<br />
 </p>
 <ul>
-<li>removing missing data<br />
-</li>
-<li>removing irrelevant data<br />
-</li>
-<li>handling datetime<br />
-</li>
-<li>removing duplicates<br />
-</li>
-<li>computing new variables for further analysis<br />
-</li>
-<li>removing outliers<br />
+<li><p><strong>Approach 1:</strong> data cleaning in SQL/ data analysis
+in Tableau<br />
 <br />
-</li>
+</p></li>
+<li><p><strong>Approach 2:</strong> data cleaning and data analysis in
+R<br />
+<br />
+</p></li>
+</ul>
+<p>All steps are documents in R Markdown including SQL and R codes. All
+codes are executable from the R Markdown documents under the condition
+that the data are downloaded and a connection to the SQL Server is
+established.<br />
+</p>
+<p>The analysis in Tableau is only documented in screenshots. The
+original dashboards and story point are available in <a
+href="https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint">Tableau
+Public</a>.<br />
+<br />
+<br />
+</p>
+<p><strong>Links to documents:</strong><br />
+<br />
+</p>
+<ul>
+<li><p><a href="introduction.html">Introduction</a><br />
+<br />
+</p></li>
+<li><p><a href="projectSql.html">Project in SQL and Tableau</a><br />
+<br />
+</p></li>
+<li><p><a href="projectR.html">Project in R</a><br />
+<br />
+</p></li>
 </ul>
 </div>
-<div id="analyze" class="section level4">
-<h4>3.4 Analyze</h4>
-<p>In the analysis process the cleaned dataset is aggregated in various
-ways to answer questions about trends per year, week, day, bike type and
-location. The results are summarized in visualization.<br />
-<br />
-</p>
-</div>
-<div id="share" class="section level4">
-<h4>3.5 Share</h4>
-<p>All findings are visualized and reported in a Rmarkdown document and
-shared on GitHub. The Tableau story line and interactive dashboards are
-available on Tableau Public Server <a
-href="https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint">Link</a><br />
-<br />
-</p>
-</div>
-<div id="act" class="section level4">
-<h4>3.6 Act</h4>
-<p>Recommendations are stated in each report.<br />
-<br />
-</p>
-</div>
-</div>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -531,35 +353,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4,h5",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
