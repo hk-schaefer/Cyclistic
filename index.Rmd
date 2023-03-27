@@ -1,0 +1,52 @@
+---
+author: "Hartmut Schaefer"
+date: "2023-03-27"
+output: 
+  html_document:
+    toc: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Google Data Analytics Specialization - CapStone Project
+\
+
+
+###  Contents
+
+This website contains  two approaches to the data analysis case study project from start to end:\
+\
+
+- **Approach 1:** data cleaning in SQL/ data analysis in Tableau\
+\
+
+- **Approach 2:** data cleaning and data analysis in R\
+\
+
+All steps are documents in R Markdown including SQL and R codes. All codes are executable from the R Markdown documents under the condition that the data are downloaded and a connection to the SQL Server is established.\
+
+The analysis in Tableau is only documented in screenshots. The original dashboards and story point are available in [Tableau Public](https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint).\
+\
+\
+
+**Links to documents:**\
+\
+
+* [Introduction](introduction.html)\
+\
+
+* [Project in SQL and Tableau](projectSql.html)\
+\
+
+* [Project in R](projectR.html)\
+\
+
+
+
+
+
+
+

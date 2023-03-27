@@ -1,0 +1,24 @@
+name: "Cyclistic"
+output_dir: "docs"
+navbar:
+  title: "Case Study: Cyclistic"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Introduction"
+      href: introduction.html
+    - text: "Project in SQL and Talbleau"
+      href: projectSql.html
+    - text: "Project in R"
+      href: projectR.html
+    - text: "LinkedIn"
+      icon: fab fa-linkedin
+      href: https://www.linkedin.com/in/hartmut-schaefer
+output:
+ html_document:
+    theme: flatly
+    highlight: zenburn
+    toc: true
+    toc_depth: 5
+    toc_float:
+      collapsed: false

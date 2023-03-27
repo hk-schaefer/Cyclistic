@@ -1,0 +1,162 @@
+---
+title: "Project in R"
+output: 
+  html_document:
+     code_folding: hide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+## Case Study: How Does a Bike-Share Navigate Speedy Succes
+
+# II. Data Cleaning in R
+
+
+## Prerequisites
+
+### Dataframe naming
+
+data frame name              | Description
+---------------------------- |----------------------------------
+df_trips_YYYYMM              | raw data input for each month
+df_trips_all_raw             | merged data of all months
+df_trips_all_clean_xxx       | cleaned data
+df_trips_all_trans           | added columns for duration, weekdays, hours
+df_trips_all_fct             | format categorical variables into factors
+df_trips_all_final           | removed outliers
+df_trips_all_final_dense     | removed non essential columns
+\
+
+
+### Install and load packages:
+
+```{r load packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+library(here)
+library(gridExtra)
+library(sf)
+```
+\
+
+
+## 1. Importing raw data
+
+### 1.1 Importing data
+
+#### Datasets
+
+Please download the following data files from the [Link] (https://divvy-tripdata.s3.amazonaws.com/index.html) and copy them into your working directory "Input_data" of RStudio \
+
+Data set: '202201-divvy-tripdata.csv' (data for one month Jan. 2022)\
+Data set: '202202-divvy-tripdata.csv' (data for one month Feb. 2022)\
+Data set: '202203-divvy-tripdata.csv' (data for one month Mar. 2022)\
+Data set: '202204-divvy-tripdata.csv' (data for one month Apr. 2022)\
+Data set: '202205-divvy-tripdata.csv' (data for one month May. 2022)\
+Data set: '202206-divvy-tripdata.csv' (data for one month Jun. 2022)\
+Data set: '202207-divvy-tripdata.csv' (data for one month Jul. 2022)\
+Data set: '202208-divvy-tripdata.csv' (data for one month Aug. 2022)\
+Data set: '202209-divvy-tripdata.csv' (data for one month Sep. 2022)\
+Data set: '202210-divvy-tripdata.csv' (data for one month Oct. 2022)\
+Data set: '202211-divvy-tripdata.csv' (data for one month Nov. 2022)\
+Data set: '202212-divvy-tripdata.csv' (data for one month Dec. 2022)\
+\
+
+Reading  12 CSV files into separated dataframes from the local storage:
+
+```{r importing data, message=FALSE, warning=FALSE}
+# ------------------------------------------------------------ set wd with here
+file_202201 <- here("data", "202201-divvy-tripdata.csv")
+file_202202 <- here("data", "202202-divvy-tripdata.csv")
+file_202203 <- here("data", "202203-divvy-tripdata.csv")
+file_202204 <- here("data", "202204-divvy-tripdata.csv")
+file_202205 <- here("data", "202205-divvy-tripdata.csv")
+file_202206 <- here("data", "202206-divvy-tripdata.csv")
+file_202207 <- here("data", "202207-divvy-tripdata.csv")
+file_202208 <- here("data", "202208-divvy-tripdata.csv")
+file_202209 <- here("data", "202209-divvy-tripdata.csv")
+file_202210 <- here("data", "202210-divvy-tripdata.csv")
+file_202211 <- here("data", "202211-divvy-tripdata.csv")
+file_202212 <- here("data", "202212-divvy-tripdata.csv")
+
+
+# ------------------------------------------------------------------ read files
+df_trips_202201 <- read_csv(file_202201)
+df_trips_202202 <- read_csv(file_202202)
+df_trips_202203 <- read_csv(file_202203)
+df_trips_202204 <- read_csv(file_202204)
+df_trips_202205 <- read_csv(file_202205)
+df_trips_202206 <- read_csv(file_202206)
+df_trips_202207 <- read_csv(file_202207)
+df_trips_202208 <- read_csv(file_202208)
+df_trips_202209 <- read_csv(file_202209)
+df_trips_202210 <- read_csv(file_202210)
+df_trips_202211 <- read_csv(file_202211)
+df_trips_202212 <- read_csv(file_202212)
+
+# ------------------------------------------------------------------- clean up
+rm(file_202201,
+   file_202202,
+   file_202203,
+   file_202204,
+   file_202205,
+   file_202206,
+   file_202207,
+   file_202208,
+   file_202209,
+   file_202210,
+   file_202211,
+   file_202212
+   )
+```
+
+
+
+### 1.2 Union data
+
+Next we will merge all 12 dataframes into one single dataframe with all the raw data.
+
+
+```{r Union all, message=FALSE, warning=FALSE}
+# ------------------------------------------ union all files into one data frame
+df_trips_all_raw <- df_trips_202201 %>% 
+  union_all(df_trips_202202) %>% 
+  union_all(df_trips_202203) %>%
+  union_all(df_trips_202204) %>%
+  union_all(df_trips_202205) %>%
+  union_all(df_trips_202206) %>%
+  union_all(df_trips_202207) %>%
+  union_all(df_trips_202208) %>%
+  union_all(df_trips_202209) %>%
+  union_all(df_trips_202210) %>% 
+  union_all(df_trips_202211) %>% 
+  union_all(df_trips_202212)
+
+# ---------------------------------------------------------- remove single files
+rm(df_trips_202201,
+   df_trips_202202,
+   df_trips_202203,
+   df_trips_202204,
+   df_trips_202205,
+   df_trips_202206,
+   df_trips_202207,
+   df_trips_202208,
+   df_trips_202209,
+   df_trips_202210,
+   df_trips_202211,
+   df_trips_202212
+)
+```
+
+Result:\
+
+- Numbers of rows: 5,667,717\
+- Numbers of columns: 13\
+\

@@ -1,0 +1,104 @@
+---
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Case Study: How Does a Bike-Share Navigate Speedy Succes
+\
+\
+
+
+# Introduction
+
+### 1. Scenario
+```{r - Tableau presentation1, echo=FALSE, fig.align='center', fig.show='hold', out.width="100%"}
+knitr::include_graphics(
+  c("~/R/Cyclistic/images/02.png")
+)
+```
+\
+\
+
+### 2. Stakeholders
+
+- Director of marketing, Lily Moreno, my manager: She is responsible for marketing campaigns to promote the bike-share program. \
+- Marketing analytics team: A team of data analysts, responsible for collecting, analyzing, and reporting data for the market strategy. I am a junior data analyst of this team.\
+- Executive team: Will decide whether to approve the recommended marketing program.\
+\
+\
+
+### 3. Data Analysis Process
+
+To answer the business question, we will follow the data analysis process: **ask, prepare, process, analyze, share**, and **act.**\
+\
+
+#### 3.1 Ask
+
+Three questions will guide the marketing program:\
+
+1. How do annual members and casual riders use Cyclistic bikes differently?\
+2. Why would casual riders buy Cyclistic annual memberships?\
+3. How can Cyclistic use digital media to influence casual riders to become members?\
+
+The marketing director has assigned me to answer the first question?\
+\
+**`How do annual members and casual riders use Cyclistic bikes differently?`**\
+\
+
+#### 3.2 Prepare
+
+For the data analysis we will use trip data from previous 12 months from this [source](https://divvy-tripdata.s3.amazonaws.com/index.html). (Note: The data has been made available by Motivate Inernational Inc. under this [license](https://ride.divvybikes.com/data-license-agreement).)\
+\
+
+#### 3.3 Process
+
+**a) Choose the right tools:**\
+
+The use of spreadsheets can be ruled out due to the large data size, leaving us with SQL or R as best choices.
+
+Approach 1: \
+- *Excel* (Pivot and Graphs): For an ad-hoc analysis with a single sample file.\
+- *SQL Server* Management Studio: For data import and cleaning\
+- *Tableau desktop*: for data exploration, visualization, and reporting\
+
+Approach 2:\
+- *R: RStudio/ RMarkdown*: for a more in-depth analysis and for reporting\
+- *GitHub*: reporting and code sharing\
+\
+
+**b) Data integrity**\
+
+Data integrity is to ensure that the data sample is sufficient, has no bias, represents the population, is accurate and trustworthy.\
+In this project the data sample represents the total population of one year, is therefore not biased, and the data are from first party.\
+\
+
+ **c) Cleaning the data**\
+ 
+The provided raw data are already in relative clean condition. Nevertheless, the following cleaning steps are still required:\
+
+- removing missing data\
+- removing irrelevant data \
+- handling datetime\
+- removing duplicates\
+- computing new variables for further analysis\
+- removing outliers\
+\
+
+#### 3.4 Analyze
+
+In the analysis process the cleaned dataset is aggregated in various ways to answer questions about trends per year, week, day, bike type and location. The results are summarized in visualization.\
+\
+
+#### 3.5 Share
+
+All findings are visualized and reported in a Rmarkdown document and shared on GitHub. The Tableau story line and interactive dashboards are available on Tableau Public Server [Link](https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint)\
+\
+
+#### 3.6 Act
+
+Recommendations are stated in each report.\
+\
