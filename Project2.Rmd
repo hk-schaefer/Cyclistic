@@ -1,19 +1,17 @@
 ---
+title: "Case Study: How Does a Bike-Share Navigate Speedy Success"
+author: "Hartmut Schaefer"
 output: 
   html_document:
-     code_folding: hide
+     code_folding: show
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-	eval = FALSE,
-	message = FALSE,
-	warning = FALSE,
-	include = FALSE
-)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
-
+\
+\
 
 # II. Data Cleaning in R
 \
@@ -818,7 +816,7 @@ Result:\
 We don't see evidence for outliers in groups classic bike and electric bike due to its continuous distribution, However, in the case of docked bikes we see an sudden change in the pattern, a kind of noise starting from 1500.\
 Therefore, the upper threshold to remove outlier will be set to 1500 minutes.\
 
-We make the decision to set the lower threshold to 1 minute. Rides less than 1 minute can be classified as bike management to dock and release bikes in order to reset the rent status. For more details see DIVVY pricing program in chapter [IV. Appendix](#iv.-appendix).
+We make the decision to set the lower threshold to 1 minute. Rides less than 1 minute can be classified as bike management to dock and release bikes in order to reset the rent status. For more details see DIVVY pricing program in page "Introduction/Appendix".\
 \
 \
 
@@ -1871,7 +1869,7 @@ For the map visualization we used ggmap and geom_point. The map was pulled from 
 The following maps were created with ggmap and Google Map API:
 
 
-```{r - read Top 20 station images, echo=FALSE, fig.align='center', fig.show='hold', out.width="66%"}
+```{r - read Top 20 station images, echo=FALSE, fig.align='center', fig.show='hold', out.width="100%"}
 knitr::include_graphics(
   c("~/R/Cyclistic/images/Top20_casual2.png",
   "~/R/Cyclistic/images/Top20_member2.png")
@@ -1889,7 +1887,7 @@ Results:\
 A density map visualizes the number of rides accumulated over the full time span and mapped to the location of start stations. The range is sliced in 50 levels. Each level is assigned to a color and bounded by a polygon.\
 For the visualization we used ggmap and stat_density2d function. The map was pulled from Google Map. A Google Map API is required. We will skip the code here, since the map creation code was quite lengthy. If there is any interest please let me know.\
 
-```{r read density distribution images, echo=FALSE, fig.align='center', fig.show='hold', out.width="66%"}
+```{r read density distribution images, echo=FALSE, fig.align='center', fig.show='hold', out.width="100%"}
 knitr::include_graphics(
   c("~/R/Cyclistic/images/DensityCasual2.png",
     "~/R/Cyclistic/images/DensityMember2.png")

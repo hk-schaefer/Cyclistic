@@ -11,8 +11,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-\
-\
 
 # Case study: Cyclistic
 \
@@ -23,30 +21,30 @@ knitr::opts_chunk$set(echo = TRUE)
 This website contains  two approaches to the data analysis case study project from start to end:\
 \
 
-- **Project 1:** data cleaning in SQL/ data analysis in Tableau\
-  -- This was my first approach within the course. Its focus was on big data wrangling and quick visualization in Tableau\
-  -- The data selection and cleaning process was later revised to be comparable with the 2nd project\
+- **Project in SQL and Tableau:**\
+  -- This was my **first approach** within the course. Its focus was on big data wrangling and quick visualization in Tableau\
+  -- The used dataset and cleaning process was later updated to be comparable with the project in R\
+  -- The project is embedded in a R Markdown document\
 \
 
-- **Project 2:** data cleaning and data analysis in R\
-  -- This was my second approach using R and is going a little bit deeper\
-  -- Some statistics has been applied to find significant outliers and correlations\
+- **Project in R:**\
+  -- This was my **second approach** using R. This project is digging a little bit deeper utilizing some of R's capabilities\
+  -- Some statistics and advanced visualizations have been applied to find deeper insights\
 \
 
-All steps are documents in R Markdown including SQL and R codes. All codes are executable from the R Markdown documents under the condition that the data are downloaded and a connection to the SQL Server is established.\
+All steps are documented in R Markdown with the relevant SQL and R codes. All codes are executable from the R Markdown documents available on GitHub [Link](https://github.com/hk-schaefer/Cyclistic).\
 
-The analysis in Tableau is only documented in screenshots. The original dashboards and story point are available in [Tableau Public](https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint).\
-\
+The analysis in Tableau with dashboards and story point is available in [Tableau Public](https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint).\
 \
 
 **Links to documents:**\
 \
 
-### [> Introduction](introduction.html)\
+#### [> Introduction](introduction.html)\
 
-### [> Project in SQL and Tableau](project1.html)\
+#### [> Project in SQL and Tableau](project1.html)\
 
-### [> Project in R](project2.html)\
+#### [> Project in R](project2.html)\
 \
 
 

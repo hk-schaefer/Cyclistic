@@ -1,4 +1,6 @@
 ---
+title: "Case Study: How Does a Bike-Share Navigate Speedy Success"
+author: "Hartmut Schaefer"
 output: html_document
 ---
 
@@ -7,8 +9,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Case Study: How Does a Bike-Share Navigate Speedy Success
-\
 \
 
 
@@ -110,15 +110,14 @@ Recommendations are stated in each report.\
 
 **Additional information from Chicago Bike Share Program "DIVVY"**
 
+Source: DIVVY website (as of Mar 2023): [Link](https://divvybikes.com/pricing)\
 
-Source: DIVVY webpage (as of Mar 2023): [Link](https://divvybikes.com/pricing)\
-
-From the website the pricing program is as follows:\
+Pricing program according to DIVVY website:\
 
 - Casual rider - Single Ride\
   - classic bike: \
     - $1 to unlock plus free 30 minutes + $0.17/minute after 30 minutes\
-  - electric bike:\ 
+  - Electric bike:\ 
     - $1 to unlock + $0.42/minute\
 \
 
@@ -132,8 +131,10 @@ From the website the pricing program is as follows:\
     - unlimited 45-minute rides + $0.17/minute if exceeded\
   - Electric bike:\
     - $0 to unlock + $0.17/minute\
+\
 
 Lost or stolen bike fee is $1200.\
+\
 
 In order to avoid extra per minute fees it is recommended to change the bike or to lock and unlock it again. In case of: \
 
