@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>project2.knit</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Case Study: Cyclistic</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="introduction.html">Introduction</a>
+</li>
+<li>
+  <a href="project1.html">Project in SQL and Talbleau</a>
+</li>
+<li>
+  <a href="project2.html">Project in R</a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/hartmut-schaefer">
+    <span class="fab fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="ii.-data-cleaning-in-r" class="section level1">
+<h1>II. Data Cleaning in R</h1>
+<p><br />
+</p>
+<p><strong>Pre-requisites</strong></p>
+<p>Dataframe names:<br />
+</p>
+<ul>
+<li><em>df_trips_YYYYMM:</em> raw data input for each month<br />
+</li>
+<li><em>df_trips_all_raw:</em> merged data of all months<br />
+</li>
+<li><em>df_trips_all_clean_xxx:</em> cleaned data<br />
+</li>
+<li><em>df_trips_all_trans:</em> added columns for duration, weekdays,
+hours<br />
+</li>
+<li><em>df_trips_all_fct:</em> format categorical variables into
+factors<br />
+</li>
+<li><em>df_trips_all_final:</em> removed outliers<br />
+</li>
+<li><em>df_trips_all_final_dense:</em> removed non essential
+columns<br />
+<br />
+</li>
+</ul>
+<p><strong>Install and load packages:</strong></p>
+<p><br />
+</p>
+<div id="importing-raw-data" class="section level2">
+<h2>1 Importing raw data</h2>
+<div id="importing-data" class="section level3">
+<h3>1.1 Importing data</h3>
+<p><strong>Datasets</strong></p>
+<p>Please download the following data files from the [Link] (<a
+href="https://divvy-tripdata.s3.amazonaws.com/index.html"
+class="uri">https://divvy-tripdata.s3.amazonaws.com/index.html</a>) and
+copy them into your working directory “data” of RStudio<br />
+</p>
+<p>Data set: ‘202201-divvy-tripdata.csv’ (data for one month
+Jan. 2022)<br />
+Data set: ‘202202-divvy-tripdata.csv’ (data for one month
+Feb. 2022)<br />
+Data set: ‘202203-divvy-tripdata.csv’ (data for one month
+Mar. 2022)<br />
+Data set: ‘202204-divvy-tripdata.csv’ (data for one month
+Apr. 2022)<br />
+Data set: ‘202205-divvy-tripdata.csv’ (data for one month May.
+2022)<br />
+Data set: ‘202206-divvy-tripdata.csv’ (data for one month
+Jun. 2022)<br />
+Data set: ‘202207-divvy-tripdata.csv’ (data for one month
+Jul. 2022)<br />
+Data set: ‘202208-divvy-tripdata.csv’ (data for one month
+Aug. 2022)<br />
+Data set: ‘202209-divvy-tripdata.csv’ (data for one month
+Sep. 2022)<br />
+Data set: ‘202210-divvy-tripdata.csv’ (data for one month
+Oct. 2022)<br />
+Data set: ‘202211-divvy-tripdata.csv’ (data for one month
+Nov. 2022)<br />
+Data set: ‘202212-divvy-tripdata.csv’ (data for one month
+Dec. 2022)<br />
+<br />
+</p>
+<p>Reading 12 CSV files into separated dataframes from the local
+storage:</p>
+<p><br />
+</p>
+</div>
+<div id="union-data" class="section level3">
+<h3>1.2 Union data</h3>
+<p>Next we will merge all 12 dataframes into one single dataframe with
+all the raw data.</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>Numbers of rows: 5,667,717<br />
+</li>
+<li>Numbers of columns: 13<br />
+<br />
+</li>
+</ul>
+<p><br />
+</p>
+<p><br />
+</p>
+</div>
+</div>
+<div id="cleaning-the-data" class="section level2">
+<h2>2. Cleaning the data</h2>
+<p><br />
+</p>
+<div id="check-data-integrity" class="section level3">
+<h3>2.1 Check data integrity</h3>
+<div id="check-numbers-of-nas" class="section level4">
+<h4>2.1.1 Check numbers of NAs</h4>
+<p>Result:<br />
+</p>
+<ul>
+<li>About 1.7 million start or end station names are missing.<br />
+</li>
+<li>Geo-codes are mostly available. However, the reconstruction of
+station names from geo-codes would require a more deep-dive into
+map-matching and is out of the scope of this project. We, therefore have
+to remove all rows with NAs, which is acceptable since we still have
+about 75% of data left.<br />
+</li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="check-time-range" class="section level4">
+<h4>2.1.2 Check time range</h4>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>max end datetime exceeded by two days (2023-01-02). This will be
+cleaned in the outlier removal step<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="check-for-time-dependency-issues" class="section level4">
+<h4>2.1.3 Check for time dependency issues</h4>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>There are 100 observations with a time conflict. These rows will be
+removed.<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="check-distinct-values" class="section level4">
+<h4>2.1.4 Check distinct values</h4>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>Distinct numbers of bike types (3) and users (2) are plausible<br />
+</li>
+<li>Distinct number of start and end station (1693) is exceeding the
+amount of stated 600 docking stations. The stations listed in the
+dataset may include different names for the same docking station as well
+as non-docking locations. Since we have no further information, we will
+treat all 1693 stations as valid.<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="check-for-location-outliers" class="section level4">
+<h4>2.1.5 Check for location outliers</h4>
+<p>Create a dataframe for stations:</p>
+<p><br />
+</p>
+<p>Plot station location as virtual map:</p>
+<p>There are stations far from Chicago area, probably testing stations.
+We will neglect these stations and set the area boundary of GCA
+to:<br />
+</p>
+<ul>
+<li>Longitude : [-88.0, -87.0]<br />
+</li>
+<li>Latitude : [41.4, 42.4]<br />
+<br />
+</li>
+</ul>
+<p>The following stations are identified as outliers:</p>
+<p>11 stations are outside of greater Chicago area. They will be removed
+in the later cleaning process.<br />
+<br />
+<br />
+</p>
+</div>
+</div>
+<div id="cleaning-the-data-1" class="section level3">
+<h3>2.2 Cleaning the data</h3>
+<div id="remove-nas" class="section level4">
+<h4>2.2.1 Remove NAs</h4>
+<p>There are plenty of rows with missing values, related to missing
+recordings of start and end stations. All rows with NAs will be
+removed.<br />
+<br />
+</p>
+<p>Remove rows with missing values:</p>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>Number of rows removed (with NAs): 1,298,357 (23%)<br />
+</li>
+<li>Number of rows remaining (no NAs): 4,369,360<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="remove-service-stations" class="section level4">
+<h4>2.2.2 Remove service stations:</h4>
+<p>Service stations for maintenance or charging tests should be removed
+from the dataset. Our first guess was that they can be identified by
+their long station ID names. However, it turned out that some docking
+stations with charging devices for electric bikes have long ID names as
+well. After a review of the 1600 station IDs we identified the following
+service station names:</p>
+<ul>
+<li>station IDs with name “Pawel Bialowas - Test- PBSC charging station”
+(length 44)<br />
+</li>
+<li>station IDs with name “DIVVY CASSETTE REPAIR MOBILE STATION” (length
+36)<br />
+</li>
+<li>station IDs with name “Hubbard Bike-checking (LBS-WH-TEST)” (length
+35)<br />
+</li>
+<li>station IDs with name “DIVVY 001 - Warehouse test station” (length
+34)<br />
+</li>
+<li>station IDs with name “2059 Hastings Warehouse Station” (length
+31)<br />
+</li>
+<li>station IDs with name “Divvy Valet - Oakwood Beach” (length
+27)<br />
+</li>
+<li>station IDs with name “Hastings WH 2” (length 13)<br />
+</li>
+</ul>
+<p><br />
+</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>Removed number of rows with service stations: 1,507<br />
+</li>
+<li>Remaining number of rows: 4,367,853<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="remove-location-outliers" class="section level4">
+<h4>2.2.3 Remove location outliers</h4>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>Number of removed stations: 8<br />
+</li>
+<li>Number of remaining rows : 4,367,845<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="remove-duplicate-rows" class="section level4">
+<h4>2.2.4 Remove duplicate rows</h4>
+<p>In order to detect and remove duplicates we will compare all columns
+except the unique ride_id:</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>Number of duplicate rows removed: 22<br />
+</li>
+<li>Number of remaining rows: 4,367,823<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="handling-dates" class="section level3">
+<h3>2.3 Handling dates</h3>
+<p>The imported data with time-stamps for start and end time are
+recorded in local time (“America/Chicago” Central Time). In order to
+account for daylight saving time (DST) the data and system environment
+of RStudio have to be set to the <strong>same</strong> local time-zone
+(TZ).<br />
+<br />
+</p>
+<div id="setting-the-correct-time-zone" class="section level4">
+<h4>2.3.1 Setting the correct time-zone</h4>
+<p>The time-zone of the imported raw data are set by default to TZ =
+“UTC”. Since the time-stamps were recorded in local time we have to
+change the time zone of the data and the system environment.<br />
+Note: The local standard time-zone like (CST - Central Standard Time)
+does not have daylight saving times and using it will result in wrong
+ride-time calculations.<br />
+<br />
+</p>
+<p><strong>Set the system environment TZ:</strong><br />
+</p>
+<p><br />
+</p>
+<p>Setting the system time to local time “America/Chicago”:</p>
+<p>Result: System time-zone set to “America/Chicago”<br />
+<br />
+</p>
+<p><strong>Set date TZ:</strong></p>
+<p><br />
+Forcing TZ “America/Chicago” on time-stamps:</p>
+<p>Result: Date time-zone set to “America/Chicago”<br />
+<br />
+<br />
+</p>
+</div>
+<div id="correcting-for-daylight-saving-time" class="section level4">
+<h4>2.3.2 Correcting for Daylight Saving Time</h4>
+<p><strong>Spring: Advancing clock - time gap</strong></p>
+<p>In spring on 2022-03-13 02:00:00 the time is advanced by 1 hour.
+There is no time recording for 02:00:00 - 02:59:59. I.e. 01:59:59 + 1
+sec = 03:00:00. Ride-time calculation by simple subtraction will create
+an error of +60 min. The calculation will be automatically corrected by
+the function <code>difftime()</code><br />
+</p>
+<p>Checking the correct calculation for rides during the time gap:</p>
+<p>  Result: Calculation is correct. Time gap of 60 minutes skipped in
+calculation<br />
+<br />
+</p>
+<p><strong>Fall: Returning clock - time lap</strong></p>
+<p>In autumn on 2022-11-06 02:00:00 the time is returned by 1 hour. The
+time between 01:00:00 and 01:59:59 is recorded twice. To eliminate
+ambiguity, the time would have had to be measured in UTC (e.g. GPS
+tracker). In our data set however the time is measured in local time.
+Thus we cannot determine whether the time stamp belongs to the first
+path (before DST switch) or the second path (after DST switch).
+Therefore, we will remove all time stamps originated or ended between
+1am to 2am. Rides originated before 1am and ended after 2am will be
+automatically corrected by the function <code>difftime()</code><br />
+</p>
+<p>Number of dates time slot at DST lap:</p>
+<p>Result: 341 rows are affected<br />
+<br />
+</p>
+<p>Removing dates from time slot at DST lap:</p>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>Number of rows removed: 341<br />
+</li>
+<li>Number of rows remaining: 4,367,482<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="remove-rows-with-time-dependency-conflict-starttime-endtime"
+class="section level4">
+<h4>2.3.3 Remove rows with time dependency conflict: starttime &gt;
+endtime</h4>
+<p>There are still some rides where the end time is before the start
+time.</p>
+<p>Result: There are 37 rides with negative ride time. All rides
+originated and ended at the same station<br />
+<br />
+</p>
+<p>Remove rides with datetime dependency conflict:</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>Number of rows with time conflicts removed: 37<br />
+</li>
+<li>Number of remaining rows: 4,367,445<br />
+<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="transform-data" class="section level3">
+<h3>2.4 Transform data</h3>
+<div id="add-calculated-variables-for-duration-weekdays-and-hours"
+class="section level4">
+<h4>2.4.1 Add calculated variables for duration, weekdays, and
+hours</h4>
+<p>For further analysis we will now calculate the ride time (duration)
+and extract year, month_name, day_name and hour from start time.<br />
+</p>
+<p><br />
+</p>
+</div>
+<div id="format-categorical-variables-to-factors"
+class="section level4">
+<h4>2.4.2 Format categorical variables to factors</h4>
+<p>We will now convert categorical variables into factors with defined
+ordered levels. This will allow us to apply useful graphics:<br />
+</p>
+<p><br />
+</p>
+</div>
+<div id="add-sub-groups-for-time-categories" class="section level4">
+<h4>2.4.3 Add sub-groups for time categories:</h4>
+<p>We will now add sub-groups for season, week and day defined as
+follows:</p>
+<ul>
+<li>season: winter, spring, summer, autumn<br />
+</li>
+<li>day_type: weekend, workday<br />
+</li>
+<li>hour_type: night, morning, afternoon, evening<br />
+</li>
+</ul>
+<p><br />
+<br />
+</p>
+</div>
+</div>
+<div id="treatment-of-outliers" class="section level3">
+<h3>2.5 Treatment of outliers</h3>
+<div id="identify-outliers" class="section level4">
+<h4>2.5.1 Identify outliers</h4>
+<p>First let’s explore the distribution of <code>ride_time</code> by
+user group and bike type to identify possible outliers.</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>max ride time classic bikes is 1499 min (about 24 hours)<br />
+</li>
+<li>max ride time of electric bikes is 480 min (8 hours)<br />
+</li>
+<li>max ride time of docked bikes is 32,000 min (about 22 days)<br />
+</li>
+<li>min ride time is zero for all groups<br />
+</li>
+</ul>
+<p>To get more insight into the data we will use histograms for each
+group:</p>
+<p><br />
+<br />
+</p>
+<p>Result: apparently only the docked_bike type shows outliers. Let’s
+zoom-in to ride time 1,500 minutes:<br />
+</p>
+<p><br />
+<br />
+Result:<br />
+</p>
+<ul>
+<li>ride time with classic bikes is capped at around 1500 min in both
+user groups.<br />
+</li>
+<li>ride time with electric bikes is capped at around 500 min in both
+user groups.<br />
+</li>
+<li>ride time with docked bikes has values beyond 1500 min.<br />
+</li>
+</ul>
+<p>We don’t see evidence for outliers in groups classic bike and
+electric bike due to its continuous distribution, However, in the case
+of docked bikes we see an sudden change in the pattern, a kind of noise
+starting from 1500.<br />
+Therefore, the upper threshold to remove outlier will be set to 1500
+minutes.<br />
+</p>
+<p>We make the decision to set the lower threshold to 1 minute. Rides
+less than 1 minute can be classified as bike management to dock and
+release bikes in order to reset the rent status. For more details see
+DIVVY pricing program in chapter <a href="#iv.-appendix">IV.
+Appendix</a>.<br />
+<br />
+</p>
+</div>
+<div id="remove-outliers" class="section level4">
+<h4>2.5.2. Remove outliers</h4>
+<p>Now, after we have defined the boundary values [1, 1500] let’s remove
+the outliers:</p>
+<p><br />
+</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>Removed outliers: 76,473<br />
+</li>
+<li>Remaining rows: 4,290,971<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="export-cleaned-data-frame" class="section level3">
+<h3>2.6 Export cleaned data frame</h3>
+<div id="remove-irrelevant-variables" class="section level4">
+<h4>2.6.1 Remove irrelevant variables</h4>
+<p>The following variables will be removed from the dataframe, as they
+are not essential for the further analysis<br />
+</p>
+<ul>
+<li>ride_id<br />
+</li>
+<li>ended_at<br />
+</li>
+<li>start_station_id<br />
+</li>
+<li>end_station_id<br />
+</li>
+<li>year</li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="export-cleaned-file" class="section level4">
+<h4>2.6.2 Export cleaned file</h4>
+<p><br />
+NOTE: ordered factor setting will be lost in the CSV file. Therefore, we
+will create an RDS file that can be used to in the rMarkdown file for
+analysis.<br />
+<br />
+<br />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="iii.-data-analysis-in-r" class="section level1">
+<h1>III. Data Analysis in R</h1>
+<p><strong>Pre-requisites</strong><br />
+</p>
+<p>Global settings for scale and color:</p>
+<p><br />
+</p>
+<p>For better readability we will rename the long dataframe name into a
+short name:</p>
+<p><br />
+</p>
+<p>Dataframe names:<br />
+</p>
+<ul>
+<li><em>df:</em> dataframe with cleaned data</li>
+<li><em>df_corr:</em> dataframe for correlation analysis</li>
+<li><em>color_table:</em> dataframe with color definition</li>
+</ul>
+<p><br />
+<br />
+</p>
+<div id="data-analysis-and-visualization" class="section level2">
+<h2>3. Data analysis and visualization</h2>
+<p><br />
+</p>
+<div id="descriptive-statistics" class="section level3">
+<h3>3.1 Descriptive statistics</h3>
+<div id="distribution-of-ride-time-in-a-histogram-graph"
+class="section level4">
+<h4>3.1.1 Distribution of ride-time in a histogram graph</h4>
+<p>Let’s first get an overview of the ride-time distribution in each
+group by histograms:</p>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>The shapes of both distributions are similar, skewed to the right
+(long tail)<br />
+</li>
+<li>The distribution of casuals is slightly wider than that of
+members<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="key-measures-as-table" class="section level4">
+<h4>3.1.2 Key measures as table</h4>
+<p>Next let’s calculate for each user group the totals, mean, standard
+deviation and other statistical measures:</p>
+<p><br />
+</p>
+</div>
+<div id="key-measures-as-bar-graphs" class="section level4">
+<h4>3.1.3 Key measures as bar graphs</h4>
+<p>Graph: Total number of rides, total ride-time and average ride-time
+by user group. In a skewed distribution the average-value (mean) is not
+so meaningful, instead we will use the median-value:</p>
+<p>Result:<br />
+</p>
+<ul>
+<li>Members have more rides per year than casuals<br />
+</li>
+<li>Casuals have longer total ride-time<br />
+</li>
+<li>Casuals’ median ride-time is about 5 minutes longer that that of
+members’ ride-time<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="key-measures-by-boxplot" class="section level4">
+<h4>3.1.4 Key measures by boxplot</h4>
+<p>For better understanding of the ride-time distribution we will use a
+boxplot:<br />
+</p>
+<p>  How to read the boxplot:<br />
+</p>
+<ul>
+<li>The middle line marks the mid-point at 50% or median (middle
+quartile)<br />
+</li>
+<li>The lower box line (lower quartile) marks 25% of all values, the
+upper box line (upper quartile) marks 75% of all values, the box height
+contains, therefore, 50% of all values (ride-time),</li>
+<li>The extended vertical lines (whiskers) represent more extreme
+values. The longer these lines are the higher the spread is<br />
+</li>
+<li>Every values below or above the whiskers are potential
+outliers<br />
+</li>
+<li>The big dot mark in the box is the mean value. For ideal normal
+distribution the median and the mean should be the same or very
+close<br />
+<br />
+</li>
+</ul>
+<p>Results for casuals:<br />
+</p>
+<ul>
+<li>75% of rides by casuals are shorter than 26 min<br />
+</li>
+<li>50% of values (IQR) are between 8 to 26 min<br />
+</li>
+<li>The median point (mid-point) is at 14 min<br />
+</li>
+<li>The mean point is at 24 min</li>
+<li>The spread is wide and even more skewed because mean and median are
+far apart<br />
+<br />
+</li>
+</ul>
+<p>Results for members:<br />
+</p>
+<ul>
+<li>75% of rides by members are shorter than 16 min<br />
+</li>
+<li>50% of values (IQR) are between 5 to 16 min<br />
+</li>
+<li>The median point (mid-point) is at 9 min<br />
+</li>
+<li>The mean point is at 13 min<br />
+</li>
+<li>The spread is more contained around the median and mean, i.e annual
+members typical ride-time is quite constant<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="log-transform-ride-time-data-for-normalization"
+class="section level4">
+<h4>3.1.5. Log transform ride-time data for normalization</h4>
+<p>Since the data are highly skewed a statistical test, like t-test, is
+not meaningful. The data can however be normalized using a log
+transformation.</p>
+<p>Preparing a dataset with log-trans values:</p>
+<p><br />
+</p>
+<p>Histogram of log-trans values:</p>
+<p><br />
+Result: the distribution is now normalized<br />
+<br />
+</p>
+<p>Boxplot of log-trans values:</p>
+<p><br />
+Result: The boxplots are now symmetric, i.e. normalized, mean and median
+are almost identical.<br />
+<br />
+<br />
+</p>
+<p><strong>T-test</strong> to test if the difference in mean between
+groups is statistically significant:<br />
+</p>
+<ul>
+<li>Ho-hypothesis: there is no significant difference between both
+means<br />
+</li>
+<li>Ha-hypothesis (alternative): there is a significant difference
+between both means<br />
+</li>
+</ul>
+<p>Result:<br />
+</p>
+<ul>
+<li>The mean values calculated through the log10 transformation are very
+close to the median and their difference is statistical significant with
+p-value = 0<br />
+</li>
+<li>geometric mean casual = 15.0<br />
+</li>
+<li>geometric mean member = 9.2<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="conclusion-descriptive-statistical-values"
+class="section level4">
+<h4>3.1.5 Conclusion: Descriptive statistical values</h4>
+<ul>
+<li>The distribution of ride-time in both groups is skewed to the right,
+i.e. concentration of shorter rides and fewer longer rides<br />
+</li>
+<li>Annual members ride more than casual riders over the year<br />
+</li>
+<li>Annual riders accumulate more ride-time over the year than annual
+members<br />
+</li>
+<li>The median ride-time (equivalent to geom. mean) of casual riders is
+significantly higher than for annual members<br />
+</li>
+<li>The ride-time of casual riders shows more fluctuations, whereas the
+ride time of members is more contained around the mid-point<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="time-dependencies" class="section level3">
+<h3>3.2 Time dependencies</h3>
+<div id="number-of-rides-as-time-series" class="section level4">
+<h4>3.2.1 Number of rides as time series</h4>
+<p>Let’s first get an overview of the whole year cycle by number of
+rides aggregated by day:</p>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>Both signals show multiple overlapping cycles of different
+frequencies over year, week and day<br />
+</li>
+<li>There are similarities but also differences<br />
+</li>
+</ul>
+<p>Let’s brake down the signal by month, day and hour:<br />
+<br />
+<br />
+</p>
+</div>
+<div id="annual-cycle-by-month" class="section level4">
+<h4>3.2.2 Annual cycle by month</h4>
+<p>We will plot the number of rides over year aggregated by months in
+absolute values and in relative values<br />
+Relative frequency is calculated by :
+<code>frq_rides = n_month/n_year</code> per group:</p>
+<p>Results:<br />
+</p>
+<ul>
+<li>Both, casuals and members, show similar behavior over the year:
+Increase of rides in warmer months and decrease in colder months<br />
+</li>
+<li>The number of rides by casuals is almost dropping down to zero in
+winter months January and February<br />
+</li>
+<li>Relatively, casuals show a steeper increase of rides in warmer
+months compared to members<br />
+<br />
+</li>
+</ul>
+<p>Average ride-time by month:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>The average ride-time of casuals is longer compared to members
+throughout the year<br />
+</li>
+<li>The average ride-time of members is almost constant over the year,
+i.e. less dependent on seasons<br />
+</li>
+<li>The average ride-time of casuals is longer in the warmer months,
+with peaks in March and May<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="weekly-cycle-by-day" class="section level4">
+<h4>3.2.3 Weekly cycle by day</h4>
+<p>Now, let’s plot the number of rides over a weak aggregated by days in
+absolute values and in relative values<br />
+Relative frequency is calculated by :
+<code>frq_rides = n_day/n_year</code> per group:</p>
+<p>Results:<br />
+</p>
+<ul>
+<li>Casuals and members, show opposite behavior over the week<br />
+</li>
+<li>Members ride more on workdays, Monday to Friday, and less on
+weekends<br />
+</li>
+<li>Casuals ride more on weekends and less on workdays<br />
+</li>
+<li>The rides of casuals increases sharply on weekends<br />
+<br />
+</li>
+</ul>
+<p>Average ride-time by day:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>The average ride-time of casuals is longer compared to members at
+all time<br />
+</li>
+<li>The average ride-time of members is almost constant over the week,
+with slight increase on weekends<br />
+</li>
+<li>The average ride-time of casuals is lowest on Wednesday and highest
+on Sunday, i.e. casuals ride longer from Friday to Monday<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="daily-cycle-by-hour" class="section level4">
+<h4>3.2.4 Daily cycle by hour</h4>
+<p>Finally, let’s plot the number of rides over a day aggregated by
+hours in absolute values and in relative values<br />
+Relative frequency is calculated by :
+<code>frq_rides = n_hour/n_year</code> per group:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>The graph shows a substantial difference in ride behavior between
+members and casuals:</li>
+<li>Members show two relative maximums, one in the morning (8am) and one
+in the afternoon (5pm), i.e. member use their bikes mainly for
+commuting<br />
+</li>
+<li>Rides of casuals gradually increases from morning to afternoon
+(5pm). The graph shows no peak at the morning commute.i.e. casuals seam
+to use their bikes for other reasons than for commuting<br />
+<br />
+</li>
+</ul>
+<p>Average ride-time by hour:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>The average ride-time of casuals is higher compared to members at
+all time<br />
+</li>
+<li>The average ride-time of members is almost constant at 13 minutes
+over the day, i.e. less influenced by the hour<br />
+</li>
+<li>The average ride-time of casuals is longest from 9am to 5pm and
+lowest from 4am to 8am<br />
+</li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="conclusions-time-dependencies-by-month-weekday-and-hours"
+class="section level4">
+<h4>3.2.5 Conclusions: Time dependencies by month, weekday and
+hours</h4>
+<p>Year:<br />
+</p>
+<ul>
+<li>The number of ride cycle over the year follows the same pattern in
+both groups, no significant differences due to season can be
+observed<br />
+</li>
+<li>Both groups show an increase of rides in warmer seasons and decrease
+in colder seasons<br />
+</li>
+<li>However, casuals show a steeper increase of rides in warmer months,
+and a drop close to zero in January and February<br />
+</li>
+<li>The average ride time for casuals is increasing in warmer months,
+highest from March to May<br />
+</li>
+<li>The average ride time of members is almost constant over the
+year<br />
+</li>
+</ul>
+<p>Week:<br />
+</p>
+<ul>
+<li>Casuals prefer riding on weekends, whereas members ride is highest
+on workdays<br />
+</li>
+<li>The average ride time of casuals increases on weekends more than for
+members<br />
+</li>
+</ul>
+<p>Day:<br />
+</p>
+<ul>
+<li>Members prefer riding during commute time in the morning and
+afternoon hours<br />
+</li>
+<li>Casuals riders, however, show no commute behavior, instead they
+prefer to ride in the afternoon, assumingly for leisure<br />
+</li>
+<li>The average ride time of casuals is longer during the daytime than
+at evening and night time<br />
+</li>
+<li>The average ride time of members is constant all over the day<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="usage-of-bike-types" class="section level3">
+<h3>3.3 Usage of bike-types</h3>
+<p>We will now break down the analysis further by bike-type
+<code>classic bike</code> and <code>electric bike</code> to get an
+insight whether there are significant differences between the user
+groups:<br />
+<br />
+</p>
+<div id="number-of-rides-in-percentage" class="section level4">
+<h4>3.3.1 Number of rides (in percentage)</h4>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>The preferred bike-type in both groups are classic bikes/</li>
+<li>Casuals are more in favor of electric bikes than members (40%
+against 34%) although the pricing of electric bikes for non-members is
+$0.42/min and for members is only $0.17/min<br />
+</li>
+<li>The case study does not provide an explanation of
+<code>docked bikes</code>. Since they are only used by casuals we
+exclude this type from the further analysis<br />
+<br />
+Let’s look more deeply into the usage of each bike-type by month, week
+and hour<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="dependency-by-month-and-day" class="section level4">
+<h4>3.3.2 Dependency by month and day</h4>
+<p>Total rides per bike-types aggregated by month for weekend and
+workday:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>On weekends and in summer casuals use more E-bikes than
+members<br />
+</li>
+<li>On workdays and in summer casuals show an increase usage of
+E-bikes<br />
+</li>
+<li>The usage of classic bikes follows a similar pattern in both user
+groups<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="dependency-by-hour-and-season-electric-bikes"
+class="section level4">
+<h4>3.3.3 Dependency by hour and season (electric bikes)</h4>
+<p>Total rides of electric bikes aggregated by hour for different
+seasons at weekend and workday:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>On weekend and in summer casuals use significantly more E-bikes than
+members<br />
+</li>
+<li>On workdays surprisingly <strong>casuals show a slight peak at the
+morning commute</strong>, indicating that a proportion of casual riders
+use their E-bike for commuting and are <strong>potential customers to
+convert to annual memberships</strong><br />
+<br />
+</li>
+</ul>
+</div>
+<div id="dependency-by-hour-and-season-classic-bikes"
+class="section level4">
+<h4>3.3.4 Dependency by hour and season (classic bikes)</h4>
+<p>Total rides of classic bikes aggregated by hour for different
+seasons, weekend and workday:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>On weekend and in warmer season almost identical usage of classic
+bikes, but fewer rides by casuals in autumn and winter<br />
+</li>
+<li>On workdays casuals show a tiny peak also in the morning commute but
+less than electric bike user, indicating that casuals do not use classic
+bikes much for commuting<br />
+</li>
+<li>In general casuals have high demand of rides in warmer seasons but
+very low demand in colder seasons<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="conclusion-usage-of-bike-types" class="section level4">
+<h4>3.3.5 Conclusion: Usage of bike-types</h4>
+<ul>
+<li>Casuals are more in favor of electric bikes than members<br />
+</li>
+<li>On summer and spring weekends casuals use more electric bikes than
+members<br />
+</li>
+<li>Casual use electric bikes to some extend also for morning commute,
+and may be potential customers for memberships<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="spatial-distribution" class="section level3">
+<h3>3.4 Spatial distribution</h3>
+<div id="top-20-start-stations" class="section level4">
+<h4>3.4.1 Top 20 start stations</h4>
+<p>Next, let’s display the top 20 stations for casuals and
+members.<br />
+For the map visualization we used ggmap and geom_point. The map was
+pulled from Google Map. A Google Map API is required. We will skip the
+code here, since the map creation code was quite lengthy. If there is
+any interest please let me know.<br />
+</p>
+<p>The following maps were created with ggmap and Google Map API:</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>Top 20 stations for casuals are concentrated along the lake shore
+and in park areas. The ride frequency of the top 20 stations ranges from
+50K - 20K<br />
+</li>
+<li>Top 20 stations for members are in the city center, business area,
+and university campuses. The ride frequency of the top 20 station ranges
+from 22K to 16K, and is more equally distributed compared to
+casuals<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="density-map-of-rides-by-location" class="section level4">
+<h4>3.4.2 Density map of rides by location</h4>
+<p>A density map visualizes the number of rides accumulated over the
+full time span and mapped to the location of start stations. The range
+is sliced in 50 levels. Each level is assigned to a color and bounded by
+a polygon.<br />
+For the visualization we used ggmap and stat_density2d function. The map
+was pulled from Google Map. A Google Map API is required. We will skip
+the code here, since the map creation code was quite lengthy. If there
+is any interest please let me know.<br />
+</p>
+<p><br />
+Results:<br />
+</p>
+<ul>
+<li>Location wise stations used by casual riders are more concentrated
+in the city and along the lake shore. The frequency range per start
+station is between 400 and 1600 rides.<br />
+</li>
+<li>Stations used by annual members are much wider spread over greater
+Chicago area (Evanston to Hide Park). The frequency ranges per start
+station from 200 to 600 rides and is more equally distributed.<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="conclusion-differences-by-location" class="section level4">
+<h4>3.4.3 Conclusion: Differences by location</h4>
+<ul>
+<li>Casuals have a preference for locations along the lake shore and in
+park areas</li>
+<li>Members have a preference for locations in the city’s business
+districts and around university campuses</li>
+<li>Casual riders are more concentrated in the city and along the lake
+shore, with few hot-spots<br />
+</li>
+<li>Annual members are more wide spread over greater Chicago area<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="modeling" class="section level3">
+<h3>3.5 Modeling</h3>
+<div id="identify-correlations-between-members-and-casuals"
+class="section level4">
+<h4>3.5.1 Identify correlations between members and casuals</h4>
+<p>Relationships (correlations) between casuals and members can be best
+visualized in scatter plots. We therefore plot the number of rides of
+casuals on the x-axis and the number of rides of members on the
+y-axis.<br />
+<br />
+If the groups are correlated, than we can infer that the behavior is not
+different<br />
+If the groups are only weakly correlated, we can infer that a difference
+in behavior exists<br />
+<br />
+</p>
+<p>We will then use a simple linear regression model provided by
+geom_smooth (method = lm). The coefficients of the model are not
+accessible from geom_smooth. However, we can calculate the R-value with
+a simple function that provides a measure of correlation (+/- 1 for high
+correlation and 0 for no correlation). The regression slop values are
+manually calculated from the graphs.<br />
+<br />
+</p>
+</div>
+<div id="prepareing-the-data-set" class="section level4">
+<h4>3.5.2 Prepareing the data set</h4>
+<p>We will create a new dataframe <code>df_corr</code> to aggregate the
+number of rides by hour. The data points will be reduced to about 8700
+rows<br />
+</p>
+<p><br />
+</p>
+</div>
+<div id="overall-correlation" class="section level4">
+<h4>3.5.3 Overall correlation</h4>
+<p><br />
+Result: </p>
+<ul>
+<li>The number of rides for casuals and members are correlated by R =
+0.8<br />
+</li>
+<li>The slope of the regression line is about 1:0.9, but we can observe
+a large spread the farther we move out on the axis</li>
+</ul>
+<p>To find some further clues we will look into correlation by season,
+weekdays and hour<br />
+<br />
+</p>
+</div>
+<div id="correlations-by-seasons" class="section level4">
+<h4>3.5.4 Correlations by seasons</h4>
+<p>Now let’s split the data in rides by season. The seasons are defined
+as:<br />
+</p>
+<ul>
+<li>winter: Jan, Feb, Mar<br />
+</li>
+<li>spring: Apr, May, Jun<br />
+</li>
+<li>summer: Jul, Aug, Sep<br />
+</li>
+<li>autumn: Oct, Nov, Dec<br />
+</li>
+</ul>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>The correlation values for all seasons are between R = 0.7 ~ 0.8, we
+<strong>can’t specify differences between casuals and members due to
+seasons</strong><br />
+</li>
+<li>The slopes are a little steeper for winter (1:1.2) and autumn
+(1:1.3), i.e. trend to more rides by members than by casuals<br />
+</li>
+<li>The slopes for summer are close to 1:1, summer (1:0.8) and spring
+(1:0.9), i.e. trend to equal number of rides for members and
+casuals<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="correlations-by-weekday" class="section level4">
+<h4>3.5.5 Correlations by weekday</h4>
+<p>Next let’s split the data in rides by day-type. The day-types are
+defined as:<br />
+</p>
+<ul>
+<li>weekend: Sat, Sun<br />
+</li>
+<li>workday: Mon, Tue, Wed, Thu, Fri<br />
+</li>
+</ul>
+<p><br />
+Result: </p>
+<ul>
+<li>The correlation on weekend (R=0.94) is stronger than on workdays
+(R=0.85), i.e. <strong>ride behavior on workdays shows more differences
+between the user groups</strong><br />
+</li>
+<li>The slop on weekends is 1:0.7, i.e. trend to more casuals than
+members<br />
+</li>
+<li>The slop on workdays is 1:1.2, i.e. trend to more members than
+casuals<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="correlation-by-day-time" class="section level4">
+<h4>3.5.6 Correlation by day time</h4>
+<p>Finally let’s split the data in rides by day time. The day times is
+defined as:<br />
+<br />
+</p>
+<ul>
+<li>night : 00:01 - 06:00<br />
+</li>
+<li>morning : 06:01 - 12:00 (morning commute)<br />
+</li>
+<li>afternoon : 12:01 - 18:00 (afternoon commute)<br />
+</li>
+<li>evening : 18:01 - 00:00<br />
+<br />
+</li>
+</ul>
+<p><br />
+Results: </p>
+<ul>
+<li>The correlation in the morning hours is weak (R=0.65),
+i.e.<strong>in the morning hours we can observe more differences in ride
+behavior between casuals and members</strong><br />
+</li>
+<li>The correlations in the afternoon, evening and night hours is about
+R=0.8 and correlated<br />
+</li>
+<li>The slops for morning hours and evening hours is 1:0.9, i.e. trend
+to equal number of members and casuals<br />
+</li>
+<li>The slop for afternoon hours is 1:0.8, i.e. trend to more casual
+rides<br />
+</li>
+<li>The slop for night hours is flat (1:0.5), i.e. trend to more casual
+rides<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="conclusions-for-correlation-between-casuals-and-members"
+class="section level4">
+<h4>3.5.7 Conclusions for correlation between casuals and members</h4>
+<p>The relationship of ride numbers between casual and member user were
+analyzed by simple linear regression models segmented into season,
+weekdays and hours. All models were significant (very small p-values):
+The models verify our findings from the time series in chapter
+3.2:<br />
+</p>
+<ul>
+<li>There are no significant difference of user behavior related to
+season<br />
+</li>
+<li>The ride behavior on workdays shows more difference between the user
+groups<br />
+</li>
+<li>In the morning hours a clear difference in ride behavior between
+casuals and members can be observed<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="answer-the-question" class="section level2">
+<h2>4. Answer the question</h2>
+<p><strong>How do annual members and casual riders use Cyclistic bikes
+differently?</strong><br />
+<br />
+</p>
+<div id="differences-between-users" class="section level3">
+<h3>4.1 Differences between users</h3>
+<p><strong>Overall:</strong><br />
+</p>
+<ul>
+<li>Annual members ride more than casual riders over the year<br />
+</li>
+<li>Casual riders accumulate more ride time over the year<br />
+</li>
+<li>The median ride-time of casual riders is longer<br />
+<br />
+</li>
+</ul>
+<p><strong>By months:</strong><br />
+</p>
+<ul>
+<li>Both groups show an increase of rides in warmer season and decrease
+in colder season<br />
+</li>
+<li>However, in case of casual riders the change is more extreme,
+i.e. more rides in summer and only very few rides in winter<br />
+</li>
+</ul>
+<p><strong>By week</strong>:<br />
+</p>
+<ul>
+<li>Casuals prefer riding on weekends and for longer time<br />
+</li>
+<li>Members prefer riding on workdays, their ride-time is constant over
+the week<br />
+<br />
+</li>
+</ul>
+<p><strong>By day</strong>:<br />
+</p>
+<ul>
+<li>Members prefer riding during commute time in the morning and
+afternoon hours, indicating that member use their bikes primarily for
+commuting<br />
+</li>
+<li>Casuals use their bikes primarily in the afternoon, indicating that
+they use it more for leisure activities<br />
+<br />
+</li>
+</ul>
+<p><strong>By bike type:</strong><br />
+</p>
+<ul>
+<li>Casuals favor electric bikes more than members<br />
+</li>
+<li>On summer weekends casuals use more electric bikes than
+members<br />
+</li>
+<li>Casuals use electric bike to some extend also for the morning
+commute, indicating that a portion of casual riders could be interested
+in a membership with a seasonal pass<br />
+<br />
+</li>
+</ul>
+<p><strong>By location:</strong><br />
+</p>
+<ul>
+<li>Casuals have a preference for locations along the lake shore, in
+park areas and in the city<br />
+</li>
+<li>Members use station all over greater Chicago area with a
+concentration in the city’s business districts and on university
+campuses<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="recommendations" class="section level3">
+<h3>4.2 Recommendations:<br />
+</h3>
+<p><strong>Scenario 1: Introduction of Seasonal
+Memberships</strong><br />
+<br />
+</p>
+<ul>
+<li>Casual riders show a distinct ride preference from June to September
+and on weekends.<br />
+</li>
+<li>Therefore, we recommend the introduction of seasonal passes for the
+warmer season and for weekends.<br />
+<br />
+</li>
+</ul>
+<p><strong>Scenario 2: Introduction of Benefit Program for Electric
+Bikes</strong><br />
+<br />
+</p>
+<ul>
+<li>Casual riders prefer to use more electric bikes than members. A
+smaller but significant portion of casual riders use electric bikes
+during the morning commute hours. They might be interested in attractive
+programs targeting especially electric bikes. This could be combined
+with seasonal membership to attract more casual riders.<br />
+<br />
+</li>
+</ul>
+<p><strong>Scenario 3: Convert Casual Riders to Annual
+Memberships</strong><br />
+<br />
+</p>
+<ul>
+<li>Since casuals’ ride pattern distinctively differs from those of
+members, it will be difficult to convert casual rider into members even
+with extensive promotion programs. We therefore do not recommend this
+path.<br />
+<br />
+<br />
+</li>
+</ul>
+<p><strong>Thank you for your interest !</strong></p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
