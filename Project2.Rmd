@@ -155,12 +155,12 @@ Result:\
 \
 
 ```{r write merged raw file to HD, eval=FALSE, include=FALSE}
-saveRDS(df_trips_all_raw, "~/R/CapStone/Output_data_all/df_trips_all_raw2.rds")
+saveRDS(df_trips_all_raw, "~/R/Cyclistic/data/df_trips_all_raw2.rds")
 ```
 \
 
 ```{r read from HD, eval=FALSE, include=FALSE}
-df_trips_all_raw <- readRDS("~/R/CapStone/Output_data_all/df_trips_all_raw2.rds")
+df_trips_all_raw <- readRDS("~/R/Cyclistic/data/df_trips_all_raw2.rds")
 ```
 \
 
@@ -519,7 +519,7 @@ The time-zone of the imported raw data are set by default to TZ = "UTC". Since t
 Note: The local standard time-zone like (CST - Central Standard Time) does not have daylight saving times and using it will result in wrong ride-time calculations.\
 \
 
-**Set the system environment TZ:\
+**Set the system environment TZ:**\
 
 ```{r check the system environment TZ, eval=FALSE, include=FALSE}
 # ---------------------------------------------------check system environment TZ
@@ -780,6 +780,8 @@ df_trips_all_fct %>%
         )
 ```
 \
+\
+
 Result: apparently only the docked_bike type shows outliers. Let's zoom-in to ride time 1,500 minutes:\
 
 ```{r histogram - outlier 2, message=FALSE, warning=FALSE}
