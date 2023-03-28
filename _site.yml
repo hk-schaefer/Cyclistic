@@ -8,9 +8,9 @@ navbar:
     - text: "Introduction"
       href: introduction.html
     - text: "Project in SQL and Talbleau"
-      href: projectSql.html
+      href: project1.html
     - text: "Project in R"
-      href: projectR.html
+      href: project2.html
     - text: "LinkedIn"
       icon: fab fa-linkedin
       href: https://www.linkedin.com/in/hartmut-schaefer
@@ -19,6 +19,6 @@ output:
     theme: flatly
     highlight: zenburn
     toc: true
-    toc_depth: 5
+    toc_depth: 3
     toc_float:
       collapsed: false

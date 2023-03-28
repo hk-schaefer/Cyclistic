@@ -12,9 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 \
 
 
-# Introduction
+# I. Introduction
 
-### 1. Scenario
+## 1. Scenario
 ```{r - Tableau presentation1, echo=FALSE, fig.align='center', fig.show='hold', out.width="100%"}
 knitr::include_graphics(
   c("~/R/Cyclistic/images/02.png")
@@ -23,7 +23,7 @@ knitr::include_graphics(
 \
 \
 
-### 2. Stakeholders
+## 2. Stakeholders
 
 - Director of marketing, Lily Moreno, my manager: She is responsible for marketing campaigns to promote the bike-share program. \
 - Marketing analytics team: A team of data analysts, responsible for collecting, analyzing, and reporting data for the market strategy. I am a junior data analyst of this team.\
@@ -31,12 +31,12 @@ knitr::include_graphics(
 \
 \
 
-### 3. Data Analysis Process
+## 3. Data Analysis Process
 
 To answer the business question, we will follow the data analysis process: **ask, prepare, process, analyze, share**, and **act.**\
 \
 
-#### 3.1 Ask
+### 3.1 Ask
 
 Three questions will guide the marketing program:\
 
@@ -49,23 +49,23 @@ The marketing director has assigned me to answer the first question?\
 **`How do annual members and casual riders use Cyclistic bikes differently?`**\
 \
 
-#### 3.2 Prepare
+### 3.2 Prepare
 
 For the data analysis we will use trip data from previous 12 months from this [source](https://divvy-tripdata.s3.amazonaws.com/index.html). (Note: The data has been made available by Motivate Inernational Inc. under this [license](https://ride.divvybikes.com/data-license-agreement).)\
 \
 
-#### 3.3 Process
+### 3.3 Process
 
 **a) Choose the right tools:**\
 
 The use of spreadsheets can be ruled out due to the large data size, leaving us with SQL or R as best choices.
 
-Approach 1: \
+Project 1: \
 - *Excel* (Pivot and Graphs): For an ad-hoc analysis with a single sample file.\
 - *SQL Server* Management Studio: For data import and cleaning\
 - *Tableau desktop*: for data exploration, visualization, and reporting\
 
-Approach 2:\
+Project 2:\
 - *R: RStudio/ RMarkdown*: for a more in-depth analysis and for reporting\
 - *GitHub*: reporting and code sharing\
 \
@@ -88,17 +88,61 @@ The provided raw data are already in relative clean condition. Nevertheless, the
 - removing outliers\
 \
 
-#### 3.4 Analyze
+### 3.4 Analyze
 
 In the analysis process the cleaned dataset is aggregated in various ways to answer questions about trends per year, week, day, bike type and location. The results are summarized in visualization.\
 \
 
-#### 3.5 Share
+### 3.5 Share
 
 All findings are visualized and reported in a Rmarkdown document and shared on GitHub. The Tableau story line and interactive dashboards are available on Tableau Public Server [Link](https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint)\
 \
 
-#### 3.6 Act
+### 3.6 Act
 
 Recommendations are stated in each report.\
 \
+\
+\
+
+
+## Appendix
+
+**Additional information from Chicago Bike Share Program "DIVVY"**
+
+
+Source: DIVVY webpage (as of Mar 2023): [Link](https://divvybikes.com/pricing)\
+
+From the website the pricing program is as follows:\
+
+- Casual rider - Single Ride\
+  - classic bike: \
+    - $1 to unlock plus free 30 minutes + $0.17/minute after 30 minutes\
+  - electric bike:\ 
+    - $1 to unlock + $0.42/minute\
+\
+
+- Casual rider - Day Pass (for visitors)\
+  - Classic bike\
+    - $16.50 for unlimited 3h rides within 24h period\
+\
+
+- Annual member (for locals) $119/year\
+  - Classic bike:\
+    - unlimited 45-minute rides + $0.17/minute if exceeded\
+  - Electric bike:\
+    - $0 to unlock + $0.17/minute\
+
+Lost or stolen bike fee is $1200.\
+
+In order to avoid extra per minute fees it is recommended to change the bike or to lock and unlock it again. In case of: \
+
+- casual and classic bike (single ride) every 30 minutes\
+- casual and classic bike (day-pass) every 3 hours\
+- member and classic bike every 45 minutes
+
+From the pricing program the following user behavior is expected:\
+
+- Casual riders will typically have ride times of 30 minutes and a max ride time of 3 hours\
+- Member riders will have a max ride time of 45 minutes\
+- Exceeding 3 hours will be rear due to the high accumulating minute-fees\

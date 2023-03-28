@@ -1,4 +1,5 @@
 ---
+title: "Google Data Analytics Specialization - CapStone Project"
 author: "Hartmut Schaefer"
 date: "2023-03-27"
 output: 
@@ -10,20 +11,26 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\
+\
 
-## Google Data Analytics Specialization - CapStone Project
+# Case study: Cyclistic
 \
 
 
-###  Contents
+##  Contents
 
 This website contains  two approaches to the data analysis case study project from start to end:\
 \
 
-- **Approach 1:** data cleaning in SQL/ data analysis in Tableau\
+- **Project 1:** data cleaning in SQL/ data analysis in Tableau\
+  -- This was my first approach within the course. Its focus was on big data wrangling and quick visualization in Tableau\
+  -- The data selection and cleaning process was later revised to be comparable with the 2nd project\
 \
 
-- **Approach 2:** data cleaning and data analysis in R\
+- **Project 2:** data cleaning and data analysis in R\
+  -- This was my second approach using R and is going a little bit deeper\
+  -- Some statistics has been applied to find significant outliers and correlations\
 \
 
 All steps are documents in R Markdown including SQL and R codes. All codes are executable from the R Markdown documents under the condition that the data are downloaded and a connection to the SQL Server is established.\
@@ -35,13 +42,11 @@ The analysis in Tableau is only documented in screenshots. The original dashboar
 **Links to documents:**\
 \
 
-* [Introduction](introduction.html)\
-\
+### [> Introduction](introduction.html)\
 
-* [Project in SQL and Tableau](projectSql.html)\
-\
+### [> Project in SQL and Tableau](project1.html)\
 
-* [Project in R](projectR.html)\
+### [> Project in R](project2.html)\
 \
 
 

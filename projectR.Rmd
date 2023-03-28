@@ -7,14 +7,9 @@ output:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	message = FALSE,
-	warning = FALSE
-)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
-## Case Study: How Does a Bike-Share Navigate Speedy Succes
 
 # II. Data Cleaning in R
 
