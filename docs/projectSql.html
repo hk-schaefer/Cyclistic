@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Hartmut Schaefer" />
+
+
+<title>Case Study in SQL: How Does a Bike-Share Navigate Speedy Success</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Case Study: Cyclistic</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="introduction.html">Introduction</a>
+</li>
+<li>
+  <a href="projectSql.html">Project in SQL and Talbleau</a>
+</li>
+<li>
+  <a href="projectR.html">Project in R</a>
+</li>
+<li>
+  <a href="https://www.linkedin.com/in/hartmut-schaefer">
+    <span class="fab fa-linkedin"></span>
+     
+    LinkedIn
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Case Study in SQL: How Does a Bike-Share
+Navigate Speedy Success</h1>
+<h4 class="author">Hartmut Schaefer</h4>
+
+</div>
+
+
+<p><br />
+<br />
+</p>
+<div id="ii.-data-cleaning-in-sql" class="section level1">
+<h1>II. Data Cleaning in SQL</h1>
+<p><br />
+</p>
+<p><strong>Pre-requisites</strong><br />
+</p>
+<p>In this RMarkdown file the SQL code for data cleaning is documented.
+The SQL tool used for this case study is Microsoft SQL Server Management
+Studio v.18.12.1. This RMarkdown file is setup to connect to my
+localhost SQL Server. All SQL code chunks will be then executable.<br />
+<br />
+</p>
+<p><strong>Install and load packages:</strong></p>
+<p>Install packages “ODBC” and “DBI” for database communication:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(odbc)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DBI)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<p><br />
+</p>
+<p><strong>Connect to SQL Server:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">odbc</span>(), <span class="at">Driver =</span> <span class="st">&quot;SQL Server&quot;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">server =</span> <span class="st">&quot;localhost</span><span class="sc">\\</span><span class="st">SQLEXPRESS&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Database =</span> <span class="st">&quot;Cyclistic_2022&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">Trusted_Connection =</span> <span class="st">&quot;True&quot;</span>)</span></code></pre></div>
+<p><br />
+</p>
+<div id="importing-raw-data" class="section level2">
+<h2>1. Importing raw data</h2>
+<p><br />
+</p>
+<div id="importing-data" class="section level3">
+<h3>1.1 Importing data</h3>
+<p><strong>Datasets</strong></p>
+<p>The following datasets were used:<a
+href="https://divvy-tripdata.s3.amazonaws.com/index.html">Link for
+dataset download:</a><br />
+</p>
+<p>Data set: ‘202201-divvy-tripdata.csv’ (data for one month
+Jan. 2022)<br />
+Data set: ‘202202-divvy-tripdata.csv’ (data for one month
+Feb. 2022)<br />
+Data set: ‘202203-divvy-tripdata.csv’ (data for one month
+Mar. 2022)<br />
+Data set: ‘202204-divvy-tripdata.csv’ (data for one month
+Apr. 2022)<br />
+Data set: ‘202205-divvy-tripdata.csv’ (data for one month May.
+2022)<br />
+Data set: ‘202206-divvy-tripdata.csv’ (data for one month
+Jun. 2022)<br />
+Data set: ‘202207-divvy-tripdata.csv’ (data for one month
+Jul. 2022)<br />
+Data set: ‘202208-divvy-tripdata.csv’ (data for one month
+Aug. 2022)<br />
+Data set: ‘202209-divvy-tripdata.csv’ (data for one month
+Sep. 2022)<br />
+Data set: ‘202210-divvy-tripdata.csv’ (data for one month
+Oct. 2022)<br />
+Data set: ‘202211-divvy-tripdata.csv’ (data for one month
+Nov. 2022)<br />
+Data set: ‘202212-divvy-tripdata.csv’ (data for one month
+Dec. 2022)<br />
+<br />
+</p>
+<p>All CSV raw data files were imported manually to the SQL Server. In
+order to account for the <strong>correct datetime</strong> setting
+follow these steps:<br />
+</p>
+<ul>
+<li>First, before the data import the PC/Mac System Clock must be
+changed to “Central Standard Time (Chicago)”. In this way the datetime
+variables in the datasets are assigned to the local time zone<br />
+</li>
+<li>Second, during the import the datetime format must be changed to
+“datetimeoffset(7)”. In this way the local daylight saving time offset
+will be registered correctly.<br />
+<br />
+</li>
+</ul>
+</div>
+<div id="union-data" class="section level3">
+<h3>1.2 Union data</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">--------------------------------- SQL: Union all tables and store into new table</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">into</span> tblAllTripsRaw</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> [dbo].[<span class="dv">202201</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202202</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202203</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202204</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202205</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202206</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202207</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202208</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202209</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202210</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202211</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202212</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        5667717</code></pre>
+<p><br />
+Result:<br />
+</p>
+<ul>
+<li>Numbers of rows: 5,667,717<br />
+</li>
+<li>Numbers of columns: 13<br />
+<br />
+</li>
+</ul>
+<p>Column names:<br />
+</p>
+<ul>
+<li>ride_id (nvarchar(50))<br />
+</li>
+<li>rideable_type (nvarchar(50))<br />
+</li>
+<li>started_at (datetimeoffset(7))<br />
+</li>
+<li>ended_at (datetimeoffset(7))<br />
+</li>
+<li>start_station_name (nvarchar(max))<br />
+</li>
+<li>start_station_id (nvarchar(50))<br />
+</li>
+<li>end_station_name (nvarchar(max))<br />
+</li>
+<li>end_station_id (nvarchar(50))<br />
+</li>
+<li>start_lat (float)<br />
+</li>
+<li>start_lng (float)<br />
+</li>
+<li>end_lat (float)<br />
+</li>
+<li>end_lng (float)<br />
+</li>
+<li>member_casual (nvarchar(50))<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="cleaning-the-data" class="section level2">
+<h2>2. Cleaning the data</h2>
+<p><br />
+</p>
+<div id="remove-nulls" class="section level3">
+<h3>2.1 Remove NULLs</h3>
+<p>There are plenty of rows with missing values, related to missing
+recordings of start and end stations. All rows with NULLs will be
+removed.<br />
+</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">---------------------------------------------------------- SQL: Delete NULL rows</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">delete</span> <span class="kw">from</span> [dbo].[tblAllTripsRaw]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ride_id <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    [rideable_type] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    [started_at] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    [ended_at] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    [start_station_name] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    [start_station_id] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    [end_station_name] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    [end_station_id] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    [start_lat] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    [start_lng] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    [end_lat] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    [end_lng] <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">or</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    [member_casual] <span class="kw">IS</span> <span class="kw">NULL</span></span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4369360</code></pre>
+<p><br />
+Result:<br />
+- Number of rows removed (with NULLs): 1,298,357 (23%)<br />
+- Number of rows remaining (no NULLs): 4,369,360<br />
+<br />
+</p>
+</div>
+<div id="remove-service-stations" class="section level3">
+<h3>2.2 Remove service stations:</h3>
+<p>Service stations for maintenance or charging tests should be removed
+from the dataset.<br />
+We identified the following service station names:</p>
+<ul>
+<li>station IDs with name “Pawel Bialowas - Test- PBSC charging
+station”<br />
+</li>
+<li>station IDs with name “DIVVY CASSETTE REPAIR MOBILE STATION”<br />
+</li>
+<li>station IDs with name “Hubbard Bike-checking (LBS-WH-TEST)”<br />
+</li>
+<li>station IDs with name “DIVVY 001 - Warehouse test station”<br />
+</li>
+<li>station IDs with name “2059 Hastings Warehouse Station”<br />
+</li>
+<li>station IDs with name “Divvy Valet - Oakwood Beach”<br />
+</li>
+<li>station IDs with name “Hastings WH 2”<br />
+</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- ---------------------------------------SQL: delete rows with service stations</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">delete</span> <span class="kw">from</span> [dbo].[tblAllTripsRaw]</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%Pawel Bialowas%&#39;</span> <span class="kw">or</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%DIVVY CASSETTE%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%Hubbard%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%DIVVY 001%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%2059 Hastings%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%Divvy Valet%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    start_station_id <span class="kw">like</span> <span class="st">&#39;%Hastings WH%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%Pawel Bialowas%&#39;</span> <span class="kw">or</span> </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%DIVVY CASSETTE%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%Hubbard%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%DIVVY 001%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%2059 Hastings%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%Divvy Valet%&#39;</span> <span class="kw">or</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    end_station_id <span class="kw">like</span> <span class="st">&#39;%Hastings WH%&#39;</span></span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4367853</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows with service stations: 1,507<br />
+- Remaining number of rows: 4,367,853<br />
+<br />
+</p>
+</div>
+<div id="remove-location-outlieres" class="section level3">
+<h3>2.3 Remove location outlieres</h3>
+<p>In the “Case study project with R” we identified stations outside of
+Greater Chicago Area. We will use here the same city boundaries:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">----------------------------------- SQL: Delete stations outside of Chicago area</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">delete</span> <span class="kw">from</span> [dbo].[tblAllTripsRaw]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    start_lat <span class="op">&lt;</span> <span class="fl">41.4</span> <span class="kw">or</span> start_lat <span class="op">&gt;</span> <span class="fl">42.4</span> <span class="kw">or</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    end_lat <span class="op">&lt;</span> <span class="fl">41.4</span> <span class="kw">or</span> end_lat <span class="op">&gt;</span> <span class="fl">42.4</span> <span class="kw">or</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    start_lng <span class="op">&lt;</span> <span class="op">-</span><span class="dv">88</span> <span class="kw">or</span> start_lng <span class="op">&gt;</span> <span class="op">-</span><span class="dv">87</span> <span class="kw">or</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    end_lng <span class="op">&lt;</span> <span class="op">-</span><span class="dv">88</span> <span class="kw">or</span> end_lng <span class="op">&gt;</span> <span class="op">-</span><span class="dv">87</span></span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4367845</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows: 8<br />
+- Remaining number of rows: 4,367,845<br />
+<br />
+</p>
+</div>
+<div id="handling-dates" class="section level3">
+<h3>2.4 Handling dates</h3>
+<p>Since all time-stamps are registered with the local time offset (see
+data import, chapter 1.1), rides originated before a DST-change
+(daylight saving time) and ended after the DST-change will be
+automatically corrected by the function <code>DATEDIFF()</code>.
+However, regarding time-stamps originated or ended in the DST-change
+slot (spring and fall), we have to look into the numbers and check for
+ambiguities<br />
+<br />
+</p>
+<div id="spring-advancing-clock---time-gap" class="section level4">
+<h4>2.4.1 Spring: Advancing clock - time gap</h4>
+<p>In spring on 2022-03-13 02:00:00 the time was advanced by 1 hour.
+Times between 02:00:00 - 02:59:59 are not recorded
+(i.e. <code>01:59:59 -6:00</code> + <code>1 sec</code> =
+<code>03:00:00 -5:00</code>). There are no ambiguities, and no rows have
+to be removed.<br />
+<br />
+</p>
+</div>
+<div id="fall-returning-clock---time-lap" class="section level4">
+<h4>2.4.2 Fall: Returning clock - time lap</h4>
+<p>In autumn on 2022-11-06 02:00:00 the time was returned by 1 hour. The
+time-stamps in the dataset of 2022-11-06 between 01:00:00 and 01:59:59
+are registered as post-DST (i.e. offset = -6:00). But many data points
+belong to the pre-DST (i.e. offset = -5:00).<br />
+<br />
+Thus we cannot determine whether the time stamp belongs to the first
+path (before DST switch) or the second path (after DST switch).
+Therefore, we will remove all time stamps originated or ended between
+1am to 2am.<br />
+</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">----------- SQL: Remove all rows with start/end time in lap (2022-11-06 1am-2am)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">delete</span> <span class="kw">from</span> [dbo].[tblAllTripsRaw]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    started_at <span class="kw">between</span> <span class="st">&#39;2022-11-06 01:00:00 -05:00&#39;</span> <span class="kw">and</span> <span class="st">&#39;2022-11-06 02:00:00 -06:00&#39;</span> <span class="kw">or</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    ended_at <span class="kw">between</span> <span class="st">&#39;2022-11-06 01:00:00 -05:00&#39;</span> <span class="kw">and</span> <span class="st">&#39;2022-11-06 02:00:00 -06:00&#39;</span></span></code></pre></div>
+<pre><code>##   remaining_number_of_rows
+## 1                  4367504</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows: 341<br />
+- Remaining number of rows: 4,367,504<br />
+<br />
+</p>
+</div>
+<div id="removing-rows-with-time-conflict-start-time-after-end-time"
+class="section level4">
+<h4>2.4.3 Removing rows with time conflict: start-time after
+end-time</h4>
+<p>There are some rides where the end time is before the start time.
+Most of these rides originated and ended at charging stations. The wrong
+recording may be due to testing or other failures. These rows will be
+removed.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">-------------------------------------------- SQL: Delete rows with time conflict</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">delete</span> <span class="kw">from</span> [dbo].[tblAllTripsRaw]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span>   started_at <span class="op">&gt;</span> ended_at</span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4367467</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows: 37<br />
+- Remaining number of rows: 4,367,467<br />
+<br />
+</p>
+</div>
+</div>
+<div id="transform-data" class="section level3">
+<h3>2.5 Transform data</h3>
+<div id="add-calculated-variables-for-duration-weekdays-and-hours"
+class="section level4">
+<h4>2.5.1 Add calculated variables for duration, weekdays, and
+hours</h4>
+<p>For further analysis we will now calculate the ride duration in
+minutes and extract date, weekday name and hour from start time.<br />
+</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">-------------------------------------------- SQL: Calculate additional variables</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span>  <span class="op">*</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">round</span>(<span class="fu">cast</span>(DATEDIFF(<span class="dt">second</span>, started_at, ended_at) <span class="kw">as</span> <span class="dt">float</span>)<span class="op">/</span><span class="dv">60</span>,<span class="dv">2</span>) <span class="kw">as</span> duration_minutes,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cast</span>(started_at <span class="kw">as</span> <span class="dt">date</span>) <span class="kw">as</span> date_start,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        datename(weekday, started_at) <span class="kw">as</span> weekday_name,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        datepart(hh, started_at) <span class="kw">as</span> hour_start</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="kw">into</span>    tblAllTripsTrans</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span>    [dbo].[tblAllTripsRaw]</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">----------------------------------------------------- SQL: Get number of columns</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span> <span class="fu">count</span>(<span class="op">*</span>) <span class="kw">as</span> number_of_columns</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span> INFORMATION_SCHEMA.<span class="kw">COLUMNS</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span> TABLE_CATALOG <span class="op">=</span> <span class="st">&#39;Cyclistic_2022&#39;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">and</span> TABLE_NAME <span class="op">=</span> <span class="st">&#39;tblAllTripsTrans&#39;</span></span></code></pre></div>
+<pre><code>##   number_of_columns
+## 1                17</code></pre>
+<p><br />
+Result:<br />
+- Number of columns added: 4<br />
+- Total number of columns: 17<br />
+<br />
+</p>
+<p>Column names (added):<br />
+</p>
+<ul>
+<li>duration_minutes (float)<br />
+</li>
+<li>date_start (date)<br />
+</li>
+<li>weekday_name (nvarchar(30))<br />
+</li>
+<li>hour_start(int)<br />
+</li>
+</ul>
+<p><br />
+</p>
+</div>
+</div>
+<div id="remove-outliers" class="section level3">
+<h3>2.6 Remove outliers</h3>
+<p>We will use the result from the “Case study project in R” document,
+where we explored the boundaries for outliers. The boundaries for
+outliers were set to:<br />
+</p>
+<ul>
+<li>lower boundary: 1 min<br />
+</li>
+<li>upper boundary: 1500 min (about 24h)</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">--------------------------------------------- SQL: Remove outliers from duration</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">delete</span> <span class="kw">from</span> [dbo].[tblAllTripsTrans]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span>   duration_minutes <span class="op">&lt;</span> <span class="dv">1</span> <span class="kw">or</span> duration_minutes <span class="op">&gt;</span> <span class="dv">1500</span></span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4290992</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows: 76,475<br />
+- Remaining number of rows: 4,290,992<br />
+<br />
+</p>
+</div>
+<div id="remove-duplicate-rows" class="section level3">
+<h3>2.7 Remove duplicate rows</h3>
+<p>In the last step, we will remove remaining duplicate rows. The
+variable <code>ride_id</code> is a unique identifier even for duplicate
+rows. Therefore, we will exclude this variable in the duplicate
+detection code. The code can be best formulated as CTE (Common Table
+Expression).</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">--------------------------------------------------------- SQL: Remove duplicates</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">with</span> cteNoDuplicates <span class="kw">as</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">row_number</span>() <span class="kw">over</span>(<span class="kw">partition</span> <span class="kw">by</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                        [rideable_type]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                        ,[started_at]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                        ,[ended_at]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                        ,[start_station_name]</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                        ,[start_station_id]</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                        ,[end_station_name]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                        ,[end_station_id]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                        ,[start_lat]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                        ,[start_lng]</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                        ,[end_lat]</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>                        ,[end_lng]</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>                        ,[member_casual]</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">order</span> <span class="kw">by</span> ride_id) row_num</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span> tblAllTripsTrans</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span>  [ride_id]</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        ,[rideable_type]</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        ,[started_at]</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        ,[ended_at]</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        ,[start_station_name]</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>        ,[start_station_id]</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>        ,[end_station_name]</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>        ,[end_station_id]</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>        ,[start_lat]</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>        ,[start_lng]</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>        ,[end_lat]</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>        ,[end_lng]</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        ,[member_casual]</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>        ,duration_minutes</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>        ,date_start</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>        ,weekday_name</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>        ,hour_start</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a><span class="kw">into</span>    tblAllTripsFinal</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span>    cteNoDuplicates</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span>   row_num <span class="op">&lt;=</span> <span class="dv">1</span></span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4290971</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows: 21<br />
+- Remaining number of rows: 4,290,971<br />
+<br />
+<br />
+</p>
+</div>
+</div>
+<div id="all-in-one" class="section level2">
+<h2>3. All in one</h2>
+<p>In a more elegant form we will combine all steps as a sequence of
+multiple CTEs (Common Table Expressions). In this way we don’t have to
+send queries multiple times to the server.</p>
+<p><br />
+</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- #############################################################################</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Case study: Cyclistic - Google Data Analytics Specialization Course </span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- Author: H. Schaefer, </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Date: 2023-03-20 (vers 2)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- Dense SQL code for data union, cleaning and calculation (</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- #############################################################################</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">------------------------------------------------------------- 0. Union all files </span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">with</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>cteUnionAllFiles <span class="kw">as</span>(</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">--select * from [dbo].[202111-divvy-tripdata]</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">--union all</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">--select * from [dbo].[202112-divvy-tripdata]</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">--union all</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202201</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202202</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202203</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202204</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202205</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202206</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202207</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202208</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202209</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202210</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202211</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>        <span class="kw">union</span> <span class="kw">all</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> [dbo].[<span class="dv">202212</span><span class="op">-</span>divvy<span class="op">-</span>tripdata]</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="co">--select count(*) as num_rows from cteUnionAllFiles</span></span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a><span class="co">------------------------------------------------------ 1. Remove rows with NULLs</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>cteNotNull <span class="kw">as</span>(</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span> <span class="kw">from</span> cteUnionAllFiles</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>        <span class="kw">where</span>   [ride_id] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>                [rideable_type] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>                [started_at] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>                [ended_at] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>                [start_station_name] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>                [start_station_id] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>                [end_station_name] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>                [end_station_id] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>                [start_lat] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>                [start_lng] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>                [end_lat] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>                [end_lng] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">and</span></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>            [member_casual] <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="co">--select count(*) as num_rows from cteNotNull</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a><span class="co">---------------------------------------- 2. Remove rows with maintenace stations</span></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>cteNoMaintenanceStation <span class="kw">as</span>(</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span>  <span class="op">*</span> </span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span>    cteNotNull</span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a>        <span class="kw">where</span></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Pawel Bialowas%&#39;</span> <span class="kw">and</span> </span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%DIVVY CASSETTE%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Hubbard%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%DIVVY 001%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%2059 Hastings%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Divvy Valet%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>            start_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Hastings WH%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Pawel Bialowas%&#39;</span> <span class="kw">and</span> </span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%DIVVY CASSETTE%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Hubbard%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%DIVVY 001%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%2059 Hastings%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Divvy Valet%&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>            end_station_id <span class="kw">not</span> <span class="kw">like</span> <span class="st">&#39;%Hastings WH%&#39;</span></span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a> <span class="co">--select count(*) as num_rows from cteNoMaintenanceStation</span></span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a><span class="co">------------------------------------------------- 3. Geo-code outlier (location)</span></span>
+<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a>cteNoLocationOutlier <span class="kw">as</span>(</span>
+<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span>  <span class="op">*</span></span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span>    cteNoMaintenanceStation</span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a>        <span class="kw">where</span></span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a>            start_lat <span class="op">&gt;=</span> <span class="fl">41.4</span> <span class="kw">and</span> start_lat <span class="op">&lt;=</span> <span class="fl">42.4</span> <span class="kw">and</span></span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a>            end_lat <span class="op">&gt;=</span> <span class="fl">41.4</span> <span class="kw">and</span> end_lat <span class="op">&lt;=</span> <span class="fl">42.4</span> <span class="kw">and</span></span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>            start_lng <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">88</span> <span class="kw">and</span> start_lng <span class="op">&lt;=</span> <span class="op">-</span><span class="dv">87</span> <span class="kw">and</span></span>
+<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a>            end_lng <span class="op">&gt;=</span> <span class="op">-</span><span class="dv">88</span> <span class="kw">and</span> end_lng <span class="op">&lt;=</span> <span class="op">-</span><span class="dv">87</span></span>
+<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a> <span class="co">--select   count(*) as num_rows from cteNoLocationOutlier</span></span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a><span class="co">-------------------------------- 4.  Daylight Saving Time - Fall returning clock</span></span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a><span class="co">-------------------------------------------remove ambiguities 2022-11-06 1am-2am</span></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a>cteNoDstAmbiguities <span class="kw">as</span>(</span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span></span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span>    cteNoLocationOutlier</span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a>        <span class="kw">where</span>   started_at </span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a>            <span class="kw">not</span> <span class="kw">between</span> <span class="st">&#39;2022-11-06 01:00:00 -05:00&#39;</span> <span class="kw">and</span> <span class="st">&#39;2022-11-06 02:00:00 -06:00&#39;</span> <span class="kw">and</span></span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a>                ended_at <span class="kw">not</span> <span class="kw">between</span> <span class="st">&#39;2022-11-06 01:00:00 -05:00&#39;</span> <span class="kw">and</span> <span class="st">&#39;2022-11-06 02:00:00 -06:00&#39;</span></span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a><span class="co">--select    count(*) as num_rows from cteNoDstAmbiguities</span></span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a><span class="co">--------------------------------------------------------------- 5. Time conflict</span></span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a>cteNoTimeConflict <span class="kw">as</span>(</span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span>  <span class="op">*</span></span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span>    cteNoDstAmbiguities</span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>        <span class="kw">where</span>   started_at <span class="op">&lt;=</span> ended_at      </span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a><span class="co">--select    count(*) as num_rows from cteNoTimeConflict</span></span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a><span class="co">------------------------------------------------ 6. calculate additional columns</span></span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a>cteAddCalculatedColumns <span class="kw">as</span>(</span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span>  <span class="op">*</span>,</span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a>                <span class="fu">round</span>(<span class="fu">cast</span>(DATEDIFF(<span class="dt">second</span>, started_at, ended_at) <span class="kw">as</span> <span class="dt">float</span>)<span class="op">/</span><span class="dv">60</span>,<span class="dv">2</span>) <span class="kw">as</span> duration_minutes,</span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a>                <span class="fu">cast</span>(started_at <span class="kw">as</span> <span class="dt">date</span>) <span class="kw">as</span> date_start,</span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a>                datename(weekday, started_at) <span class="kw">as</span> weekday_name,</span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a>                datepart(hh, started_at) <span class="kw">as</span> hour_start</span>
+<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span>    cteNoTimeConflict</span>
+<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a> <span class="co">--select top 10 * from cteAddCalculatedColumns</span></span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a><span class="co">------------------------------------------------------------- 7. Remove outliers</span></span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a><span class="co">-----------------------(ride durations &lt;1min or &gt;1500min (24h+) will be removed)</span></span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a>cteRemoveDurationOutliers <span class="kw">as</span>(</span>
+<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span>  <span class="op">*</span></span>
+<span id="cb22-129"><a href="#cb22-129" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span>    cteAddCalculatedColumns</span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a>        <span class="kw">where</span>   duration_minutes <span class="op">&gt;=</span> <span class="dv">1</span> <span class="kw">and</span></span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a>                duration_minutes <span class="op">&lt;=</span> <span class="dv">1500</span></span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a> <span class="co">--select count(*) as num_rows from cteRemoveDurationOutliers</span></span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a><span class="co">----------------------------------------------------------- 8. Remove duplicates</span></span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a>cteNoDuplicates <span class="kw">as</span>(</span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a>        <span class="kw">select</span> <span class="op">*</span>,</span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a>        <span class="fu">row_number</span>() <span class="kw">over</span>(<span class="kw">partition</span> <span class="kw">by</span></span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>                        [rideable_type]</span>
+<span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a>                        ,[started_at]</span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a>                        ,[ended_at]</span>
+<span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a>                        ,[start_station_name]</span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a>                        ,[start_station_id]</span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a>                        ,[end_station_name]</span>
+<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a>                        ,[end_station_id]</span>
+<span id="cb22-146"><a href="#cb22-146" aria-hidden="true" tabindex="-1"></a>                        ,[start_lat]</span>
+<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a>                        ,[start_lng]</span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a>                        ,[end_lat]</span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a>                        ,[end_lng]</span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a>                        ,[member_casual]</span>
+<span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">order</span> <span class="kw">by</span> ride_id) row_num</span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a>        <span class="kw">from</span> cteRemoveDurationOutliers</span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span>  [ride_id]</span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a>        ,[rideable_type]</span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a>        ,[started_at]</span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a>        ,[ended_at]</span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a>        ,[start_station_name]</span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a>        ,[start_station_id]</span>
+<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a>        ,[end_station_name]</span>
+<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a>        ,[end_station_id]</span>
+<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a>        ,[start_lat]</span>
+<span id="cb22-163"><a href="#cb22-163" aria-hidden="true" tabindex="-1"></a>        ,[start_lng]</span>
+<span id="cb22-164"><a href="#cb22-164" aria-hidden="true" tabindex="-1"></a>        ,[end_lat]</span>
+<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a>        ,[end_lng]</span>
+<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a>        ,[member_casual]</span>
+<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a>        ,duration_minutes</span>
+<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a>        ,date_start</span>
+<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a>        ,weekday_name</span>
+<span id="cb22-170"><a href="#cb22-170" aria-hidden="true" tabindex="-1"></a>        ,hour_start</span>
+<span id="cb22-171"><a href="#cb22-171" aria-hidden="true" tabindex="-1"></a><span class="kw">into</span>    tblAllTripsFinal</span>
+<span id="cb22-172"><a href="#cb22-172" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span>    cteNoDuplicates</span>
+<span id="cb22-173"><a href="#cb22-173" aria-hidden="true" tabindex="-1"></a><span class="kw">where</span>   row_num <span class="op">&lt;=</span> <span class="dv">1</span></span></code></pre></div>
+<pre><code>##   number_of_rows
+## 1        4290971</code></pre>
+<p><br />
+Result:<br />
+- Removed number of rows: 1,376,746<br />
+- Remaining number of rows: 4,290,971<br />
+<br />
+<br />
+</p>
+</div>
+<div id="prepare-data-for-tableau" class="section level2">
+<h2>4. Prepare data for Tableau</h2>
+<p>Finally, we will prepare the data for the further analysis in Tableau
+by removing non-essential variables and adjust the data type format from
+“nvarchar(max)” to “nvarchar(100)”</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">-------------------------------------------------- SQL: Prepare data for Tableau</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">select</span>  [rideable_type]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>        ,<span class="fu">cast</span>([start_station_name] <span class="kw">as</span> <span class="dt">nvarchar</span>(<span class="dv">100</span>)) <span class="kw">as</span> start_station_name</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>        ,[start_station_id]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>        ,[start_lat]</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>        ,[start_lng]</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>        ,[member_casual]</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>        ,duration_minutes</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        ,date_start</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        ,weekday_name</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>        ,hour_start</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="kw">into</span>    tblAllTripsFinalDense</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="kw">from</span>    tblAllTripsFinal</span></code></pre></div>
+<pre><code>##   number_of_columns
+## 1                10</code></pre>
+<p><br />
+Result:<br />
+- Number of columns removed: 7<br />
+- Remaining number of columns: 10<br />
+<br />
+</p>
+<p>Column names (for Tableau):<br />
+</p>
+<ul>
+<li>rideable_type (nvarchar(50))<br />
+</li>
+<li>start_station_name (nvarchar(100))<br />
+</li>
+<li>start_station_id (nvarchar(50))<br />
+</li>
+<li>start_lat (float)<br />
+</li>
+<li>start_lng (float)<br />
+</li>
+<li>member_casual (nvarchar(50))<br />
+</li>
+<li>duration_minutes (float)<br />
+</li>
+<li>date_start (date)<br />
+</li>
+<li>weekday_name (nvarchar(30))<br />
+</li>
+<li>hour_start(int)<br />
+<br />
+<br />
+<br />
+</li>
+</ul>
+</div>
+</div>
+<div id="iii.-analysis-in-tableau" class="section level1">
+<h1>III. Analysis in Tableau</h1>
+<p><a
+href="https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint">The
+presentation with interactive dashboards can be found here</a><br />
+<br />
+<br />
+</p>
+<div id="data-analysis-and-visualization" class="section level2">
+<h2>5. Data analysis and visualization</h2>
+<p><br />
+</p>
+<div id="key-values" class="section level3">
+<h3>5.1 Key values</h3>
+<p><img src="images/03.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+</p>
+</div>
+<div id="time-dependencies" class="section level3">
+<h3>5.2 Time dependencies</h3>
+<p><img src="images/04.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+</p>
+</div>
+<div id="differences-by-bike-types" class="section level3">
+<h3>5.3 Differences by bike-types</h3>
+<p><img src="images/05.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+</p>
+</div>
+<div id="differences-by-location" class="section level3">
+<h3>5.4 Differences by location</h3>
+<p><br />
+</p>
+<p><img src="images/06.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+</p>
+</div>
+<div id="answer-the-question" class="section level3">
+<h3>5.5 Answer the question</h3>
+<p><code>How do annual members and casual rides use Cyclistic bikes differently?</code></p>
+<p><img src="images/07.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+</p>
+</div>
+<div id="three-scenarios" class="section level3">
+<h3>5.6 Three scenarios</h3>
+<p><img src="images/08.png" width="100%" style="display: block; margin: auto;" /><br />
+ </p>
+</div>
+<div id="dashboards" class="section level3">
+<h3>5.7 Dashboards</h3>
+<p>[For interactivity please visit my webpage of Tableau Public] (<a
+href="https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint)\"
+class="uri">https://public.tableau.com/app/profile/hartmut.schaefer/viz/Bike-ShareCaseStudy-GoogleDataAnalyticsCapStoneProject/Cyclistics-StoryPoint)\</a><br />
+</p>
+<p><img src="images/09.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+<br />
+</p>
+<p><img src="images/10.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+<br />
+</p>
+<p><img src="images/11.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+<br />
+</p>
+<p><img src="images/12.png" width="100%" style="display: block; margin: auto;" /><br />
+<br />
+</p>
+<p><strong>Thank you for your interest !</strong></p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -42,9 +42,9 @@ The analysis in Tableau with dashboards and story point is available in [Tableau
 
 #### [> Introduction](introduction.html)\
 
-#### [> Project in SQL and Tableau](project1.html)\
+#### [> Project in SQL and Tableau](projectSql.html)\
 
-#### [> Project in R](project2.html)\
+#### [> Project in R](projectR.html)\
 \
 
 

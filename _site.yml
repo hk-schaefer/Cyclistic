@@ -8,9 +8,9 @@ navbar:
     - text: "Introduction"
       href: introduction.html
     - text: "Project in SQL and Talbleau"
-      href: project1.html
+      href: projectSql.html
     - text: "Project in R"
-      href: project2.html
+      href: projectR.html
     - text: "LinkedIn"
       icon: fab fa-linkedin
       href: https://www.linkedin.com/in/hartmut-schaefer
