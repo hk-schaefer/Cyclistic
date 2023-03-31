@@ -12,7 +12,7 @@ navbar:
     - text: "Project in R"
       href: projectR.html
     - text: "References"
-      href: Ref.html
+      href: References.html
     - text: "LinkedIn"
       icon: fab fa-linkedin
       href: https://www.linkedin.com/in/hartmut-schaefer

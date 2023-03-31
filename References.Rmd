@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-From my experience the Google Data Analytics course provided the basic and broad foundation to the field, but was by far not sufficient to challenge the case study project. Below are some recommendations for further tutoring and reading. I also used tons of other sources on the open net but mainly `StackOverflow`.\
+The Google Data Analytics course provided the basic and broad foundation to the field of data analysis.  To challenge the case study project, however, I needed some more training on the tools. Below are some recommendations for further tutoring and reading. I also used tons of other sources on the open net but mainly `StackOverflow`.\
 \
 \
 
