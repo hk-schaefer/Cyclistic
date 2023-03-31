@@ -1,0 +1,53 @@
+---
+title: "References"
+output: 
+  html_document:
+    toc: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+From my experience the Google Data Analytics course provided the basic and broad foundation to the field, but was by far not sufficient to challenge the case study project. Below are some recommendations for further tutoring and reading. I also used tons of other sources on the open net but mainly `StackOverflow`.\
+\
+\
+
+
+
+1. [Google Data Analytics Professional Certificate, Coursera](https://www.coursera.org/professional-certificates/google-data-analytics?utm_medium=sem&utm_source=bg&utm_campaign=B2C_NAMER_google-data-analytics_google_FTCOF_professional-certificates_country-CA&campaignid=662140813&adgroupid=1255642923849196&device=c&keyword=google%20data%20analytics%20certification%20coursera&matchtype=e&network=o&devicemodel=&adposition=&creativeid=&hide_mobile_promo&msclkid=761b632d0cbd1554c7b5070b07180e53&utm_term=google%20data%20analytics%20certification%20coursera&utm_content=Certificate%20Related)\
+\
+2. [SQL Server Tutorial, Youtube - PRAGIM Technologies, India]\
+\
+3. [Tableau Tutorial (1-87), Youtube - tutorialspoint, India]\
+\
+4. [R for Data Science, O'Reilly, Hadley Wickham](https://r4ds.had.co.nz/index.html)\
+\
+5. [Let's Git started, Jenny Bryan, Jim Hester, UBC](https://happygitwithr.com/index.html)\
+\
+6. [Toronto bike-Share Data Analysis, Shirly Zhang, Medium](https://shirleyzhang2.medium.com/toronto-bike-share-data-analysis-943d5810c717)\
+\
+
+
+
+
+
+
+```{r load packages, eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(here)
+```
+\
+
+```{r eval=FALSE, include=FALSE}
+reference_link <- here("data", "References.csv")
+references_list <- read_csv(reference_link)
+```
+
+```{r eval=FALSE, include=FALSE}
+# --------------------------------------------------------------- print as table
+knitr::kable(references_list[1:6 , ])
+```
+
