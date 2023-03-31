@@ -13,22 +13,23 @@ The task of this case study was to identify differences between two user groups.
 In this repo you will find two approaches to the task:
 
 
-1. Approach 1: Using SQL for data cleaning and Tableau for exploration and visualization
+1. Approach 1: Using SQL for data cleaning and Tableau for exploration, and visualization
 
     - the SQL code is documented in code chunks within the Rmd file
-    - all steps are explained in the in line text
-    - the Tableau visualization and dashboards are document as screenshots. The original can be found on Tableau Public
+    - all steps are explained in the in-line text
+    - the Tableau visualization and dashboards are documented as screenshots. The original can be found on Tableau Public
 
 
 
-2. Approach 2: Using R for data cleaning, exploration and visualization
+
+
+2. Approach 2: Using R for data cleaning, exploration, and visualization
 
     - the R code is documented in code chunks in the Rmd file
-    - all steps are explained in the in line text
+    - all steps are explained in the in-line text
 
 
 
-Further instructions are stated on the Webpages\
 
 
 
